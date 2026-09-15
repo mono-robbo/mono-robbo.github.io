@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <title>MONO - On-Demand Production for Marketing Teams</title>
@@ -14,6 +14,19 @@
   <meta name="twitter:description" content="Plug MONO into your team and launch more work into market. Cloud production across brand, retail, ecommerce, content and sales enablement.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#121212">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://monohq.co/#organization",
+    "name": "MONO",
+    "legalName": "Monolux Pty Ltd",
+    "url": "https://monohq.co/",
+    "email": "hello@monohq.co",
+    "description": "On-demand production for marketing teams across brand, retail, ecommerce, content and sales enablement.",
+    "location": { "@type": "Place", "name": "Sydney" }
+  }
+  </script>
   <!-- Google tag (gtag.js): initialize before the page unpacking pipeline. -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-NHGGBL110F"></script>
   <script>
@@ -119,28 +132,121 @@
   </script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #121212; display: flex; align-items: center; justify-content: center; min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
-    #__bundler_loading { position: fixed; bottom: 20px; right: 20px; font: 13px/1.4 -apple-system, BlinkMacSystemFont, sans-serif; color: #666; background: #fff; padding: 8px 14px; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.12); z-index: 10000; }
-    #__bundler_thumbnail { position: fixed; inset: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #121212; z-index: 9999; }
-    #__bundler_thumbnail svg { width: 100%; height: 100%; object-fit: contain; }
-    #__bundler_placeholder { color: #999; font-size: 14px; }
+    html { scroll-behavior: smooth; }
+    body { background: #121212; color: #fff; font: 18px/1.6 -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; }
+    a { color: inherit; text-underline-offset: 4px; }
+    a:focus-visible { outline: 3px solid #8b8bff; outline-offset: 6px; }
+    .static-header, .static-footer { max-width: 1240px; margin: auto; padding: 28px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+    .static-logo { font-size: 34px; font-weight: 900; letter-spacing: -2px; text-decoration: none; }
+    .static-logo::after { content: ''; display: inline-block; width: 9px; height: 9px; margin-left: 5px; border-radius: 50%; background: #1414f7; }
+    .static-header nav { display: flex; flex-wrap: wrap; gap: 24px; font-size: 15px; }
+    .static-section { max-width: 1240px; margin: auto; padding: 80px 24px; scroll-margin-top: 24px; }
+    .static-hero { text-align: center; padding-top: 100px; padding-bottom: 120px; }
+    .static-hero h1 { font-size: clamp(40px, 6.5vw, 86px); line-height: 1.02; letter-spacing: -0.045em; max-width: 1000px; margin: 0 auto 30px; }
+    .static-hero p { max-width: 740px; margin: 20px auto; }
+    .static-section h2 { font-size: clamp(30px, 4vw, 54px); line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 28px; }
+    .static-section h3 { font-size: 23px; line-height: 1.25; margin-bottom: 12px; }
+    .static-section p { margin-bottom: 20px; }
+    .static-eyebrow { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; }
+    .static-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 36px; }
+    .static-grid ul { padding-left: 22px; }
+    .static-light { background: #f3f2ee; color: #121212; border-radius: 36px; }
+    .static-cta { display: inline-block; background: #1414f7; color: #fff; padding: 16px 30px; border-radius: 999px; text-decoration: none; font-weight: 600; }
+    .static-contact { background: #1414f7; border-radius: 36px; text-align: center; }
+    .static-contact .static-cta { background: #121212; }
+    .static-footer { font-size: 14px; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   </style>
-  <noscript>
-    <style>#__bundler_loading { display: none; }</style>
-    <div style="position:fixed;bottom:12px;left:12px;font:13px/1.4 -apple-system,BlinkMacSystemFont,sans-serif;color:#999;background:rgba(255,255,255,0.9);padding:6px 12px;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,0.08);z-index:10000;">
-      This page requires JavaScript to display.
-    </div>
-  </noscript>
 </head>
 <body>
-  <div id="__bundler_thumbnail">
-  <svg xmlns="http://www.w3.org/2000/svg" sc-camel-view-box="0 0 200 200">
-    <rect width="200" height="200" fill="#121212"></rect>
-    <text x="86" y="112" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="900" letter-spacing="-1" fill="#FFFFFF">MONO</text>
-    <circle cx="146" cy="108" r="5" fill="#1414F7"></circle>
-  </svg>
-</div>
-  <div id="__bundler_loading">Unpacking...</div>
+  <!-- This visible HTML is the initial page for every visitor and crawler.
+       Keep its copy aligned with the enhanced template below. The existing
+       renderer replaces it once ready; it also works if JavaScript is off. -->
+  <header class="static-header">
+    <a class="static-logo" href="#top" aria-label="MONO home">MONO</a>
+    <nav aria-label="Main navigation">
+      <a href="#work">Selected work</a>
+      <a href="#produce">What we produce</a>
+      <a href="#how">How it works</a>
+      <a href="#talk">Talk to MONO</a>
+    </nav>
+  </header>
+  <main id="main-content">
+    <section id="top" class="static-section static-hero">
+      <p class="static-eyebrow">Production for retail · social · sales · ecommerce · campaigns · launches</p>
+      <h1>Production capacity for ambitious marketing teams.</h1>
+      <p>Plug MONO into your team and launch more work into market.</p>
+      <p class="static-eyebrow">Brand · Retail &amp; trade · Ecommerce · Content · Sales enablement</p>
+      <a class="static-cta" href="#talk">Talk to MONO</a>
+    </section>
+    <section class="static-section">
+      <h2>Production capacity you can switch on.<br>We call it Cloud Production.</h2>
+      <p>Your agencies stay. Your team stays. One production function working across your team and partners — expanding during launches, contracting when it’s quiet.</p>
+      <p>Your marketing team · Global + regional teams · Lead creative agency · Media + specialist agencies · Retail + channel partners</p>
+    </section>
+    <div class="static-light">
+      <section id="work" class="static-section">
+        <p class="static-eyebrow">01 — Selected production experience</p>
+        <h2>Selected production experience.</h2>
+        <p>Sennheiser · PepsiCo · Virgin Australia · Main Sequence</p>
+        <p>Uber, Uber Eats and IGA | Special Group<br>CommBank | M&amp;C Saatchi<br>Ampol | Publicis Groupe<br>Mitsubishi | Ogilvy Australia<br>Qantas | Droga5<br>HP | Clemenger BBDO</p>
+      </section>
+      <section id="produce" class="static-section">
+        <p class="static-eyebrow">02 — What we produce</p>
+        <h2>One production system. Many outputs.</h2>
+        <div class="static-grid">
+          <div>
+            <h3>Campaign + retail</h3>
+            <ul><li>Campaign rollout</li><li>Retailer assets</li><li>POS</li><li>Catalogues</li><li>OOH</li><li>Digital display</li><li>Adaptations</li><li>Sales enablement</li></ul>
+          </div>
+          <div>
+            <h3>Content + motion</h3>
+            <ul><li>Product content</li><li>Launch content</li><li>Social</li><li>Paid social</li><li>Motion</li><li>Video</li></ul>
+          </div>
+          <div>
+            <h3>Digital + commerce</h3>
+            <ul><li>Ecommerce</li><li>Retail media</li><li>Web assets</li><li>Email</li><li>Digital advertising</li></ul>
+          </div>
+          <div>
+            <h3>Production ops</h3>
+            <ul><li>Artwork</li><li>Resizing</li><li>Version control</li><li>QC</li><li>Source files</li><li>Supplier handoff</li><li>Dispatch</li></ul>
+          </div>
+        </div>
+      </section>
+    </div>
+    <section id="how" class="static-section">
+      <p class="static-eyebrow">03 — How it works</p>
+      <h2>One brief. The whole Production Dept.</h2>
+      <div class="static-grid">
+        <div><h3>01 — Brief MONO</h3><p>A launch, campaign, workstream or production requirement.</p></div>
+        <div><h3>02 — We plug in</h3><p>Alongside your team, your global assets and your existing agencies.</p></div>
+        <div><h3>03 — Production expands</h3><p>Designers, editors and motion artists activated to match the work.</p></div>
+        <div><h3>04 — We deliver</h3><p>Versions, QC, retailer specs, source files and final delivery — handled.</p></div>
+      </div>
+    </section>
+    <section class="static-section">
+      <p class="static-eyebrow">04 — Meet the team</p>
+      <h2>The people running your production.</h2>
+      <div class="static-grid">
+        <div><h3>Robin Sung</h3><p>Founder / Head of Production</p><p>20 years across commercial production, post-production and creative delivery for brands such as Visa, PepsiCo and Virgin, and global agencies such as Accenture, BBDO, Publicis Groupe, Ogilvy.</p></div>
+        <div><h3>Yok Ak-amornphan</h3><p>Operations Lead</p><p>Former Client Operations Director at Iyuno, with experience leading regional operations and large-scale media workflows across APAC.</p></div>
+        <div><h3>André Castelo</h3><p>Creative Lead / Lead Editor</p><p>Extensive experience as an art director, lead editor and motion designer for Sennheiser, Special, Qantas and more.</p></div>
+      </div>
+      <p>A specialist network across design, animation, editing and post production.</p>
+    </section>
+    <section id="talk" class="static-section static-contact">
+      <p class="static-eyebrow">05 — Start small</p>
+      <h2>Start with one workstream.</h2>
+      <p>Give MONO one contained launch or retailer requirement. See how we operate before expanding. No restructure. No agency replacement. Start with one project.</p>
+      <p><a class="static-cta" href="mailto:hello@monohq.co">Talk to MONO</a></p>
+      <a href="mailto:hello@monohq.co">hello@monohq.co</a>
+    </section>
+  </main>
+  <footer class="static-footer">
+    <a class="static-logo" href="#top">MONO</a>
+    <a href="mailto:hello@monohq.co">hello@monohq.co</a>
+    <p>© 2026 Monolux Pty Ltd — Sydney</p>
+  </footer>
 
   <script>
     
@@ -435,9 +541,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     // createElement so they execute, awaiting onload for src scripts to
     // preserve ordering (React before ReactDOM before Babel before text/babel).
     const metadataNodes = Array.from(document.head.querySelectorAll(
-      'link[rel="canonical"], meta[property^="og:"], meta[name^="twitter:"]'
+      'link[rel="canonical"], meta[property^="og:"], meta[name^="twitter:"], script[type="application/ld+json"]'
     )).map(function(node) { return node.cloneNode(true); });
     const doc = new DOMParser().parseFromString(template, 'text/html');
+    doc.documentElement.lang = 'en';
     for (const node of metadataNodes) doc.head.appendChild(node);
 
     // Keep the mobile portfolio concise while preserving the complete desktop
