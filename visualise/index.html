@@ -7,12 +7,103 @@
   <meta name="description" content="AI-assisted concept images and a short video that help customers picture a renovation, landscape or pool proposal before construction begins.">
   <meta name="robots" content="noindex, follow">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%231414f7%22/><text x=%2250%22 y=%2266%22 font-size=%2255%22 text-anchor=%22middle%22 fill=%22%23FFFFFF%22 font-family=%22Arial%22 font-weight=%22900%22>M</text></svg>">
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NHGGBL110F"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments)}
-    gtag('js', new Date());
-    gtag('config', 'G-NHGGBL110F');
+    (function () {
+      if (window.__monoTradeAnalyticsConfigured) return;
+
+      var search = new URLSearchParams(window.location.search);
+      var safeSlug = /^[a-z0-9]+(?:_[a-z0-9]+)*$/;
+      var oneValue = function (key) {
+        var values = search.getAll(key);
+        return values.length === 1 && values[0].length <= 48 && safeSlug.test(values[0])
+          ? values[0] : '';
+      };
+      var fixed = {
+        utm_source: 'mono_outreach',
+        utm_medium: 'email',
+        utm_campaign: '2026q3_trade_visualisation',
+        utm_id: 'mo_2026q3_002'
+      };
+      var validators = {
+        outreach_country: /^(?:au|nz|uk|us)$/,
+        outreach_industry: /^(?:builder|landscaper|pool_installer)$/,
+        outreach_persona: /^owner$/,
+        outreach_cadence_step: /^(?:d0_initial|d2_followup_1|d4_followup_2|d6_followup_3)$/,
+        outreach_test_variable: /^(?:offer|subject|cta|none)$/,
+        outreach_variant: /^(?:control|a|b)$/,
+        outreach_batch_id: /^mo_2026w38_(?:0[1-9]|[1-9][0-9])$/
+      };
+      var cohortKeys = Object.keys(validators);
+      var context = {};
+      var valid = Object.keys(fixed).every(function (key) {
+        return oneValue(key) === fixed[key];
+      });
+      cohortKeys.forEach(function (key) {
+        var value = oneValue(key);
+        if (validators[key].test(value)) context[key] = value;
+        else valid = false;
+      });
+      var content = [context.outreach_cadence_step, context.outreach_test_variable,
+        context.outreach_variant].join('_');
+      valid = valid && oneValue('utm_content') === content;
+
+      // Every visit gets a filtered analytics URL, including malformed outreach links.
+      var safeLocation = new URL(window.location.href);
+      safeLocation.search = '';
+      safeLocation.hash = '';
+      var config = {};
+      if (valid) {
+        Object.keys(fixed).forEach(function (key) { safeLocation.searchParams.set(key, fixed[key]); });
+        safeLocation.searchParams.set('utm_content', content);
+        config.campaign_source = fixed.utm_source;
+        config.campaign_medium = fixed.utm_medium;
+        config.campaign_name = fixed.utm_campaign;
+        config.campaign_id = fixed.utm_id;
+        config.campaign_content = content;
+        Object.assign(config, context);
+      } else {
+        context = {};
+      }
+      config.page_location = safeLocation.toString();
+      config.page_referrer = '';
+      try {
+        var referrer = new URL(document.referrer);
+        if (referrer.protocol === 'https:' || referrer.protocol === 'http:') {
+          config.page_referrer = referrer.origin + '/';
+        }
+      } catch (ignore) {}
+
+      // Filter the document URL before loading GA too: enhanced measurement can
+      // otherwise read raw query values independently (for example, site search).
+      // Keep validated cohort labels for refreshes and only existing page anchors.
+      var browserLocation = new URL(safeLocation.toString());
+      if (valid) cohortKeys.forEach(function (key) { browserLocation.searchParams.set(key, context[key]); });
+      if (/^#(?:films|films-title|film-garden|film-pool|film-kitchen|examples|offer|start)$/.test(window.location.hash)) {
+        browserLocation.hash = window.location.hash;
+      }
+      if (browserLocation.toString() !== window.location.href) {
+        try {
+          window.history.replaceState(window.history.state, '', browserLocation.toString());
+        } catch (ignore) {
+          // Do not initialise analytics if the raw query could still be collected.
+          return;
+        }
+      }
+
+      window.__monoOutreachContext = Object.freeze(context);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+      window.__monoTradeAnalyticsConfigured = true;
+      window.gtag('js', new Date());
+      window.gtag('config', 'G-NHGGBL110F', config);
+      if (valid) {
+        window.gtag('event', 'outreach_landing', Object.assign({ non_interaction: true }, config));
+      }
+      var tag = document.createElement('script');
+      tag.async = true;
+      tag.src = 'https://www.googletagmanager.com/gtag/js?id=G-NHGGBL110F';
+      document.head.appendChild(tag);
+    })();
   </script>
   <style>
     :root{--ink:#0a0a0a;--paper:#f2f1ec;--muted:#a7a7a2;--line:#2a2a28;--volt:#caff00;--max:1480px}
