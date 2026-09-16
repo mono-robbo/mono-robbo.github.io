@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>MONO internal analytics setting</title>
+<style>body{font:18px system-ui;max-width:650px;margin:12vh auto;padding:24px;background:#080818;color:white}button{font:inherit;padding:14px;margin:8px 8px 8px 0;cursor:pointer}a{color:#b2acff}</style></head>
+<body><h1>Internal analytics setting</h1><p>Exclude this browser’s visits and clicks on MONO’s trade visualisation landing pages. This setting stays on when you change networks. Apply it separately in each browser you use.</p><p id="status" role="status"></p><button id="exclude">Exclude this browser</button><button id="include">Resume analytics in this browser</button><p>Reload any landing pages already open after changing this setting.</p><a href="/visualise/">Return to the landing page</a>
+<script>
+const status = document.getElementById('status');
+function show() { try { status.textContent = localStorage.getItem('mono_analytics_opt_out') === '1' ? 'This browser is excluded.' : 'This browser is not excluded.'; } catch (_) { status.textContent = 'Browser storage is unavailable. The setting cannot be saved.'; } }
+document.getElementById('exclude').addEventListener('click', () => { try { localStorage.setItem('mono_analytics_opt_out','1'); } catch (_) {} show(); });
+document.getElementById('include').addEventListener('click', () => { try { localStorage.removeItem('mono_analytics_opt_out'); } catch (_) {} show(); });
+show();
+</script></body></html>

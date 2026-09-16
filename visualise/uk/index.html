@@ -10,6 +10,15 @@
   <script>
     (function () {
       if (window.__monoTradeAnalyticsConfigured) return;
+      // Internal browser opt-out and local previews never load analytics.
+      var internalPreview = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(window.location.hostname) || window.location.protocol === 'file:';
+      var internalBrowser = false;
+      try { internalBrowser = window.localStorage.getItem('mono_analytics_opt_out') === '1'; } catch (ignore) {}
+      if (internalPreview || internalBrowser) {
+        window['ga-disable-G-NHGGBL110F'] = true;
+        window.__monoAnalyticsDisabled = true;
+        return;
+      }
 
       var search = new URLSearchParams(window.location.search);
       var safeSlug = /^[a-z0-9]+(?:_[a-z0-9]+)*$/;
