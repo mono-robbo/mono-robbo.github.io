@@ -82,7 +82,7 @@
     @media (max-width:900px){.wrap{width:min(calc(100% - 36px),var(--max))}.hero{grid-template-columns:1fr}.hero-copy{padding:76px 0 66px;margin:0 auto;width:min(calc(100% - 56px),var(--max))}.hero-media{margin:0 28px 28px;min-height:52svh}.section-head{padding-top:84px}.film-grid{grid-template-columns:1fr}.offer{grid-template-columns:1fr}.offer-copy{padding:84px 0 54px;margin:0 auto;width:min(calc(100% - 56px),var(--max))}.offer-list{margin:0 28px 28px;padding:40px}.final{padding:110px 0}}
     @media (max-width:620px){header{height:72px}.wrap{width:calc(100% - 32px)}.brand{font-size:1.34rem}.nav-cta{font-size:.73rem;padding:10px 13px}.hero{min-height:auto}.hero-copy{padding:66px 0 50px;width:calc(100% - 32px)}h1{font-size:3.9rem}.hero-media{border-radius:24px;margin:0 16px 16px;min-height:390px}.section-head{padding:72px 0 34px}.section-head h2{font-size:3.15rem}.compare{border-radius:24px}.gallery{gap:14px;padding-bottom:80px}.card{border-radius:18px}.film{border-radius:18px}.films{padding-bottom:80px}.offer-copy{padding:76px 0 42px;width:calc(100% - 32px)}.offer h2{font-size:3.25rem}.offer-list{border-radius:24px;margin:0 16px 16px;padding:28px 24px}.final{padding:94px 0}.final h2{font-size:4rem}.final-side .button{max-width:none}.email{text-align:center}}
   </style>
-  <link rel="stylesheet" href="images.css?v=3">
+  <link rel="stylesheet" href="images.css?v=4">
   <link rel="stylesheet" href="videos.css?v=1">
 </head>
 <body>
@@ -97,7 +97,7 @@
           <p>Turn a site photo and rough idea into before-and-after concept images and a short video your customer can understand before construction begins.</p>
         </div>
         <div class="hero-offer">
-          <div class="price" aria-label="Introductory price 350 Australian dollars plus GST, reduced from 650 dollars plus GST">
+          <div class="price" role="group" aria-label="Introductory price 350 Australian dollars plus GST, reduced from 650 dollars plus GST">
             <span class="price-old"><s>A$650</s><small>+ GST</small></span>
             <span class="price-now">A$350</span>
             <span class="price-note">+ GST · Introductory price</span>
@@ -283,7 +283,7 @@
         <div class="eyebrow">The introductory package</div>
         <h2>One project. One clear visual story.</h2>
         <p>Send us a site photo and the direction you’re proposing. We turn it into a set of concept images plus one short video for your next customer conversation.</p>
-        <div class="price" aria-label="Introductory price 350 Australian dollars plus GST, reduced from 650 dollars plus GST"><span class="price-old"><s>A$650</s><small>+ GST</small></span><span class="price-now">A$350</span><span class="price-note">+ GST · Introductory price</span></div>
+        <div class="price" role="group" aria-label="Introductory price 350 Australian dollars plus GST, reduced from 650 dollars plus GST"><span class="price-old"><s>A$650</s><small>+ GST</small></span><span class="price-now">A$350</span><span class="price-note">+ GST · Introductory price</span></div>
         <p class="fine">Concept visuals communicate an intended direction. They do not replace architectural design, engineering, planning, product specifications, approvals or feasibility checks. Final scope is agreed after we review the supplied photo and brief.</p>
       </div>
       <div class="offer-list">
@@ -308,6 +308,29 @@
   <footer><div class="wrap footer-row"><span>MONOº · Sydney, Australia</span><span>AI-assisted project concept visuals · 2026</span></div></footer>
 
   <script>
+    // Anchor the original price, draw the reduction, then reveal the offer once.
+    // Without motion support or JavaScript, the complete static price stays visible.
+    const priceMotionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!priceMotionPreference.matches && 'IntersectionObserver' in window) {
+      const prices = [...document.querySelectorAll('.hero .price, .offer .price')];
+      const priceObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting || entry.intersectionRatio < 0.65) return;
+          entry.target.classList.add('is-revealed');
+          priceObserver.unobserve(entry.target);
+        });
+      }, {threshold: 0.65});
+      prices.forEach(price => {
+        price.classList.add('price-reveal-ready');
+        priceObserver.observe(price);
+      });
+      priceMotionPreference.addEventListener('change', event => {
+        if (!event.matches) return;
+        priceObserver.disconnect();
+        prices.forEach(price => price.classList.remove('price-reveal-ready', 'is-revealed'));
+      });
+    }
+
     document.querySelectorAll('[data-compare]').forEach(compare => {
       const buttons = [...compare.querySelectorAll('button[data-view]')];
       const images = [...compare.querySelectorAll('img')];
