@@ -1,6 +1,22 @@
 /* Link verified end-to-end at A$90 + A$9 GST in Stripe sandbox. */
 const CHECKOUT_URL = 'https://buy.stripe.com/fZubJ1gtqgAJb6FfiBdUY01';
 const CHECKOUT_READY = true;
+// Initialise measurement before optional media features so analytics still loads
+// if a browser cannot support one of the richer video interactions below.
+const measurementId = 'G-NHGGBL110F';
+const url = new URL(location.href);
+let internal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) || location.protocol === 'file:';
+try { internal ||= localStorage.getItem('mono_analytics_opt_out') === '1'; } catch (_) {}
+const allowed = {utm_source:/^mono_outreach$/,utm_medium:/^email$/,utm_campaign:/^2026q3_pool_99$/,utm_id:/^mo_pool99_01$/,utm_content:/^(control|challenger)$/,outreach_country:/^au$/,outreach_industry:/^pool_installer$/,outreach_variant:/^(control|challenger)$/,outreach_batch_id:/^mo_2026w[0-9]{2}_[0-9]{2}$/};
+const context = {};
+const clean = new URL(url.origin + url.pathname);
+for (const [key, pattern] of Object.entries(allowed)) { const value = url.searchParams.get(key); if (url.searchParams.getAll(key).length === 1 && value && pattern.test(value)) {context[key]=value;clean.searchParams.set(key,value);} }
+if (/^#(package|examples|process|questions|intro)$/.test(url.hash)) clean.hash=url.hash;
+if (location.protocol !== 'file:') history.replaceState(null,'',clean);
+window.dataLayer=window.dataLayer||[];
+function gtag(){window.dataLayer.push(arguments);}
+function track(name, props={}) {if(!internal) gtag('event',name,{offer_id:'pool_99_v1',page_version:'cinema_v2',...context,...props});}
+if(!internal){window.gtag=gtag;gtag('js',new Date());gtag('config',measurementId,{page_location:clean.href,page_referrer:document.referrer ? new URL(document.referrer).origin+'/' : '',send_page_view:true});const tag=document.createElement('script');tag.async=true;tag.src='https://www.googletagmanager.com/gtag/js?id='+measurementId;document.head.append(tag);track('pool_page_loaded',{landing_hash:clean.hash||'none'});[15,30,60,120].forEach(seconds=>setTimeout(()=>track('pool_time_on_page',{seconds}),seconds*1000));}
 const heroVideo=document.querySelector('.hero-background');
 const heroMotion=document.querySelector('.hero-motion');
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
@@ -72,20 +88,6 @@ filmPlayer.addEventListener('error',()=>{if(filmPlayer.getAttribute('src'))filmD
 filmPlayer.addEventListener('play',()=>track('pool_video_play',{film_id:activeFilm}));
 filmPlayer.addEventListener('timeupdate',()=>{if(!filmPlayer.duration)return;[25,50,75].forEach(percent=>{if(filmPlayer.currentTime/filmPlayer.duration*100>=percent&&!filmProgress.has(percent)){filmProgress.add(percent);track('pool_video_progress',{film_id:activeFilm,percent});}});});
 filmPlayer.addEventListener('ended',()=>track('pool_video_complete',{film_id:activeFilm}));
-const measurementId = 'G-NHGGBL110F';
-const url = new URL(location.href);
-let internal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) || location.protocol === 'file:';
-try { internal ||= localStorage.getItem('mono_analytics_opt_out') === '1'; } catch (_) {}
-const allowed = {utm_source:/^mono_outreach$/,utm_medium:/^email$/,utm_campaign:/^2026q3_pool_99$/,utm_id:/^mo_pool99_01$/,utm_content:/^(control|challenger)$/,outreach_country:/^au$/,outreach_industry:/^pool_installer$/,outreach_variant:/^(control|challenger)$/,outreach_batch_id:/^mo_2026w[0-9]{2}_[0-9]{2}$/};
-const context = {};
-const clean = new URL(url.origin + url.pathname);
-for (const [key, pattern] of Object.entries(allowed)) { const value = url.searchParams.get(key); if (url.searchParams.getAll(key).length === 1 && value && pattern.test(value)) {context[key]=value;clean.searchParams.set(key,value);} }
-if (/^#(package|examples|process|questions|intro)$/.test(url.hash)) clean.hash=url.hash;
-if (location.protocol !== 'file:') history.replaceState(null,'',clean);
-window.dataLayer=window.dataLayer||[];
-function gtag(){window.dataLayer.push(arguments);}
-function track(name, props={}) {if(!internal) gtag('event',name,{offer_id:'pool_99_v1',page_version:'cinema_v2',...context,...props});}
-if(!internal){window.gtag=gtag;gtag('js',new Date());gtag('config',measurementId,{page_location:clean.href,page_referrer:document.referrer ? new URL(document.referrer).origin+'/' : '',send_page_view:true});const tag=document.createElement('script');tag.async=true;tag.src='https://www.googletagmanager.com/gtag/js?id='+measurementId;document.head.append(tag);track('pool_page_loaded',{landing_hash:clean.hash||'none'});[15,30,60,120].forEach(seconds=>setTimeout(()=>track('pool_time_on_page',{seconds}),seconds*1000));}
 const dialog=document.querySelector('#notice');
 function notice(title,copy){document.querySelector('#notice-title').textContent=title;document.querySelector('#notice-copy').replaceChildren();const p=document.createElement('p');p.textContent=copy;document.querySelector('#notice-copy').append(p);dialog.showModal();}
 document.querySelector('.close').addEventListener('click',()=>dialog.close());
