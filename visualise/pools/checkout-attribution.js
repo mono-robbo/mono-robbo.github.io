@@ -8,8 +8,8 @@
     const safe = {};
     const patterns = {
       utm_source: /^mono_outreach$/, utm_medium: /^email$/,
-      utm_campaign: /^2026q3_pool_99$/, utm_content: /^(control|challenger)$/,
-      outreach_variant: /^(control|challenger)$/,
+      utm_campaign: /^(2026q3_pool_99|2026q3_pool99_batch02)$/, utm_content: /^(control|challenger|challenge)$/,
+      outreach_variant: /^(control|challenger|challenge)$/,
       outreach_batch_id: /^mo_2026w[0-9]{2}_[0-9]{2}$/
     };
     for (const [key, pattern] of Object.entries(patterns)) {

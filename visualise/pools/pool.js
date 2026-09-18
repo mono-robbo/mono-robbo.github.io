@@ -7,7 +7,7 @@ const measurementId = 'G-NHGGBL110F';
 const url = new URL(location.href);
 let internal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) || location.protocol === 'file:';
 try { internal ||= localStorage.getItem('mono_analytics_opt_out') === '1'; } catch (_) {}
-const allowed = {utm_source:/^mono_outreach$/,utm_medium:/^email$/,utm_campaign:/^2026q3_pool_99$/,utm_id:/^mo_pool99_01$/,utm_content:/^(control|challenger)$/,outreach_country:/^au$/,outreach_industry:/^pool_installer$/,outreach_variant:/^(control|challenger)$/,outreach_batch_id:/^mo_2026w[0-9]{2}_[0-9]{2}$/};
+const allowed = {utm_source:/^mono_outreach$/,utm_medium:/^email$/,utm_campaign:/^(2026q3_pool_99|2026q3_pool99_batch02)$/,utm_id:/^mo_pool99_(?:01|\d{3})$/,utm_content:/^(control|challenger|challenge)$/,outreach_country:/^au$/,outreach_industry:/^(pool_installer|pool_builder)$/,outreach_variant:/^(control|challenger|challenge)$/,outreach_batch_id:/^mo_2026w[0-9]{2}_[0-9]{2}$/};
 const context = {};
 const clean = new URL(url.origin + url.pathname);
 for (const [key, pattern] of Object.entries(allowed)) { const value = url.searchParams.get(key); if (url.searchParams.getAll(key).length === 1 && value && pattern.test(value)) {context[key]=value;clean.searchParams.set(key,value);} }
