@@ -15,7 +15,8 @@ if (/^#(package|examples|process|questions|intro)$/.test(url.hash)) clean.hash=u
 if (location.protocol !== 'file:') history.replaceState(null,'',clean);
 window.dataLayer=window.dataLayer||[];
 function gtag(){window.dataLayer.push(arguments);}
-function track(name, props={}) {if(!internal) gtag('event',name,{offer_id:'pool_99_v1',page_version:'cinema_v2',...context,...props});}
+function track(name, props={}) {if(!internal) gtag('event',name,{offer_id:'pool_99_v1',page_version:'cinema_v3_fastvideo',...context,...props});}
+function mediaState(video){const error=video.error;return {media_error_code:error?.code||0,network_state:video.networkState,ready_state:video.readyState,current_src:(video.currentSrc||video.getAttribute('src')||video.dataset.src||'').split('/').pop(),connection_type:navigator.connection?.effectiveType||'unknown',save_data:Boolean(navigator.connection?.saveData)};}
 if(!internal){window.gtag=gtag;gtag('js',new Date());gtag('config',measurementId,{page_location:clean.href,page_referrer:document.referrer ? new URL(document.referrer).origin+'/' : '',send_page_view:true});const tag=document.createElement('script');tag.async=true;tag.src='https://www.googletagmanager.com/gtag/js?id='+measurementId;document.head.append(tag);track('pool_page_loaded',{landing_hash:clean.hash||'none'});[15,30,60,120].forEach(seconds=>setTimeout(()=>track('pool_time_on_page',{seconds}),seconds*1000));}
 const heroVideo=document.querySelector('.hero-background');
 const heroMotion=document.querySelector('.hero-motion');
@@ -23,9 +24,10 @@ const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
 let heroUserPaused=false;
 function loadHero(){if(!heroVideo.getAttribute('src'))heroVideo.src=heroVideo.dataset.src;}
 function syncHeroButton(){const playing=!heroVideo.paused;heroMotion.textContent=playing?'Pause film':'Play film';heroMotion.setAttribute('aria-label',playing?'Pause background video':'Play background video');}
-heroMotion.addEventListener('click',()=>{if(heroVideo.paused){heroUserPaused=false;loadHero();heroVideo.play().catch(()=>{});}else{heroUserPaused=true;heroVideo.pause();}});
-heroVideo.addEventListener('play',syncHeroButton);heroVideo.addEventListener('pause',syncHeroButton);
-if(!reducedMotion.matches&&!navigator.connection?.saveData){loadHero();heroVideo.play().catch(syncHeroButton);}
+let heroRequestedAt=0;
+heroMotion.addEventListener('click',()=>{if(heroVideo.paused){heroUserPaused=false;const firstLoad=!heroVideo.getAttribute('src');if(firstLoad){loadHero();heroRequestedAt=performance.now();track('pool_video_request',{film_id:'hero',...mediaState(heroVideo)});}heroVideo.play().catch(()=>{});}else{heroUserPaused=true;heroVideo.pause();}});
+heroVideo.addEventListener('playing',()=>{syncHeroButton();track('pool_hero_video_play',{startup_ms:heroRequestedAt?Math.round(performance.now()-heroRequestedAt):0,...mediaState(heroVideo)});});heroVideo.addEventListener('pause',syncHeroButton);
+// Performance: keep the poster as first paint. Never fetch the hero MP4 until the visitor explicitly taps Play film.
 reducedMotion.addEventListener('change',e=>{if(e.matches){heroUserPaused=true;heroVideo.pause();}});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)heroVideo.pause();else if(!heroUserPaused&&!reducedMotion.matches&&heroVideo.getAttribute('src'))heroVideo.play().catch(()=>{});});
 // Package film and image thumbnails update the existing large viewer without navigation.
@@ -34,6 +36,7 @@ const packageFilm=packageViewer.querySelector('video');
 const packageImage=packageViewer.querySelector('img');
 const packageItems=[...document.querySelectorAll('[data-package-video],[data-package-image]')];
 const packageProgress=new Set();
+let packageRequestedAt=0;
 packageItems.forEach((button,index)=>{
  button.setAttribute('aria-pressed',String(index===0));
  button.addEventListener('click',()=>{
@@ -42,6 +45,7 @@ packageItems.forEach((button,index)=>{
   if(isVideo){
    packageImage.hidden=true;packageFilm.hidden=false;
    if(!packageFilm.getAttribute('src'))packageFilm.src=button.dataset.packageVideo;
+   packageRequestedAt=performance.now();track('pool_video_request',{film_id:'package',...mediaState(packageFilm)});
    packageFilm.play().catch(()=>{});
    packageViewer.querySelector('.media-label').textContent='Package example / 30-second film';
   }else{
@@ -54,12 +58,12 @@ packageItems.forEach((button,index)=>{
   track('pool_package_media_view',{media_type:isVideo?'video':'image',media_id:label.toLowerCase().replace(/[^a-z0-9]+/g,'_')});
  });
 });
-packageFilm.addEventListener('play',()=>track('pool_package_video_play'));
+packageFilm.addEventListener('playing',()=>track('pool_package_video_play',{startup_ms:packageRequestedAt?Math.round(performance.now()-packageRequestedAt):0,...mediaState(packageFilm)}));
 packageFilm.addEventListener('pause',()=>{if(!packageFilm.ended)track('pool_package_video_pause',{position_seconds:Math.round(packageFilm.currentTime)});});
 packageFilm.addEventListener('seeked',()=>track('pool_package_video_seek',{position_seconds:Math.round(packageFilm.currentTime)}));
 packageFilm.addEventListener('timeupdate',()=>{if(!packageFilm.duration)return;[25,50,75].forEach(percent=>{if(packageFilm.currentTime/packageFilm.duration*100>=percent&&!packageProgress.has(percent)){packageProgress.add(percent);track('pool_package_video_progress',{percent});}});});
 packageFilm.addEventListener('ended',()=>track('pool_package_video_complete'));
-packageFilm.addEventListener('error',()=>track('pool_video_error',{film_id:'package'}));
+packageFilm.addEventListener('error',()=>track('pool_video_error',{film_id:'package',...mediaState(packageFilm)}));
 // Only the three gallery cards open films. No video downloads before interaction.
 const filmDialog=document.createElement('dialog');
 filmDialog.className='film-lightbox';
@@ -70,6 +74,7 @@ const filmPlayer=filmDialog.querySelector('video');
 let filmOpener=null;
 let filmProgress=new Set();
 let activeFilm='';
+let filmRequestedAt=0;
 document.querySelectorAll('[data-film]').forEach(button=>button.addEventListener('click',()=>{
  if(!['plunge','family','suburban'].includes(button.dataset.film))return;
  filmOpener=button;activeFilm=button.dataset.film;filmProgress=new Set();
@@ -79,13 +84,14 @@ document.querySelectorAll('[data-film]').forEach(button=>button.addEventListener
  filmPlayer.src='./assets/'+activeFilm+'-film-30s.mp4';
  filmDialog.showModal();document.body.style.overflow='hidden';
  track('pool_video_open',{film_id:activeFilm});
+ filmRequestedAt=performance.now();track('pool_video_request',{film_id:activeFilm,...mediaState(filmPlayer)});
  filmPlayer.play().catch(()=>{});
 }));
 filmDialog.querySelector('.film-close').addEventListener('click',()=>filmDialog.close());
 filmDialog.addEventListener('click',e=>{if(e.target===filmDialog){const r=filmDialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)filmDialog.close();}});
 filmDialog.addEventListener('close',()=>{filmPlayer.pause();filmPlayer.removeAttribute('src');filmPlayer.load();document.body.style.overflow='';filmOpener?.focus();});
 filmPlayer.addEventListener('error',()=>{if(filmPlayer.getAttribute('src'))filmDialog.querySelector('.film-error').hidden=false;});
-filmPlayer.addEventListener('play',()=>track('pool_video_play',{film_id:activeFilm}));
+filmPlayer.addEventListener('playing',()=>track('pool_video_play',{film_id:activeFilm,startup_ms:filmRequestedAt?Math.round(performance.now()-filmRequestedAt):0,...mediaState(filmPlayer)}));
 filmPlayer.addEventListener('timeupdate',()=>{if(!filmPlayer.duration)return;[25,50,75].forEach(percent=>{if(filmPlayer.currentTime/filmPlayer.duration*100>=percent&&!filmProgress.has(percent)){filmProgress.add(percent);track('pool_video_progress',{film_id:activeFilm,percent});}});});
 filmPlayer.addEventListener('ended',()=>track('pool_video_complete',{film_id:activeFilm}));
 const dialog=document.querySelector('#notice');
@@ -112,9 +118,9 @@ const seen=new Set();addEventListener('scroll',()=>{const total=document.documen
 
 // Measure deliberate interaction separately from passive background playback.
 heroMotion.addEventListener('click',()=>track('pool_hero_control',{action:heroUserPaused?'pause':'play'}));
-heroVideo.addEventListener('error',()=>track('pool_video_error',{film_id:'hero'}));
+heroVideo.addEventListener('error',()=>track('pool_video_error',{film_id:'hero',...mediaState(heroVideo)}));
 filmPlayer.addEventListener('pause',()=>{if(filmDialog.open&&!filmPlayer.ended)track('pool_video_pause',{film_id:activeFilm,position_seconds:Math.round(filmPlayer.currentTime)});});
 filmPlayer.addEventListener('seeked',()=>track('pool_video_seek',{film_id:activeFilm,position_seconds:Math.round(filmPlayer.currentTime)}));
-filmPlayer.addEventListener('error',()=>{if(filmPlayer.getAttribute('src'))track('pool_video_error',{film_id:activeFilm});});
+filmPlayer.addEventListener('error',()=>{if(filmPlayer.getAttribute('src'))track('pool_video_error',{film_id:activeFilm,...mediaState(filmPlayer)});});
 filmDialog.addEventListener('close',()=>track('pool_video_close',{film_id:activeFilm}));
 document.querySelectorAll('details').forEach((item,index)=>item.addEventListener('toggle',()=>{if(!item.open)track('pool_faq_close',{faq_id:'faq_'+(index+1)});}));
