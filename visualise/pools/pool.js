@@ -46,9 +46,24 @@ const packageImage=packageViewer.querySelector('img');
 const packageItems=[...document.querySelectorAll('[data-package-video],[data-package-image]')];
 const packageProgress=new Set();
 let packageRequestedAt=0;
+let packageUserInteracted=false;
+function autoplayPackage(){
+ if(packageUserInteracted||reducedMotion.matches||navigator.connection?.saveData||packageFilm.getAttribute('src'))return;
+ const videoButton=document.querySelector('[data-package-video]');
+ if(!videoButton)return;
+ packageFilm.muted=true;packageFilm.defaultMuted=true;packageFilm.autoplay=true;packageFilm.src=videoButton.dataset.packageVideo;packageFilm.load();
+ packageRequestedAt=performance.now();track('pool_video_request',{film_id:'package',...mediaState(packageFilm),autoplay:true});
+ packageFilm.play().catch(()=>{});
+}
+const packageSection=document.querySelector('#package');
+if('IntersectionObserver' in window&&packageSection){
+ const packageObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){autoplayPackage();packageObserver.disconnect();}}),{threshold:.35});
+ packageObserver.observe(packageSection);
+}
 packageItems.forEach((button,index)=>{
  button.setAttribute('aria-pressed',String(index===0));
  button.addEventListener('click',()=>{
+  packageUserInteracted=true;
   const isVideo=Boolean(button.dataset.packageVideo);
   const label=button.querySelector('span').textContent.trim();
   if(isVideo){
