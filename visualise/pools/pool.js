@@ -153,21 +153,53 @@ document.querySelectorAll('details').forEach((item,index)=>item.addEventListener
 const finishComparison=document.querySelector('[data-finish-comparison]');
 if(finishComparison){
  const finishRange=finishComparison.querySelector('[data-finish-range]');
+ const finishStage=finishComparison.querySelector('.finish-stage');
  const finishImages=[...finishComparison.querySelectorAll('[data-finish-image]')];
  const finishOptions=[...finishComparison.querySelectorAll('[data-finish-option]')];
  const finishName=finishComparison.querySelector('[data-finish-name]');
  const finishNames=['Light + Coastal','Warm + Natural','Dark + Architectural'];
+ let finishPosition=50;
+ let dragging=false;
  function setFinish(value){
   const position=Math.max(0,Math.min(100,Number(value)));
+  finishPosition=position;
   const progress=position/50;
   const selected=Math.round(progress);
   finishComparison.style.setProperty('--finish-position',position+'%');
   finishImages.forEach((image,index)=>{image.style.opacity=String(Math.max(0,1-Math.abs(progress-index)));image.classList.toggle('is-active',index===selected);});
   finishOptions.forEach((button,index)=>button.setAttribute('aria-pressed',String(index===selected)));
   finishName.textContent=finishNames[selected];
+  finishStage.setAttribute('aria-valuenow',String(Math.round(position)));
+  finishStage.setAttribute('aria-valuetext',finishNames[selected]);
  }
- finishRange.addEventListener('input',()=>setFinish(finishRange.value));
- finishRange.addEventListener('change',()=>track('pool_finish_compare',{finish_id:finishNames[Math.round(Number(finishRange.value)/50)].toLowerCase().replace(/[^a-z0-9]+/g,'_')}));
- finishOptions.forEach((button,index)=>button.addEventListener('click',()=>{finishRange.value=String(index*50);setFinish(finishRange.value);track('pool_finish_option',{finish_id:finishNames[index].toLowerCase().replace(/[^a-z0-9]+/g,'_')});}));
- setFinish(finishRange.value);
+ function setFromPointer(event){
+  const bounds=finishStage.getBoundingClientRect();
+  setFinish((event.clientX-bounds.left)/bounds.width*100);
+ }
+ function finishDrag(){
+  if(!dragging)return;
+  dragging=false;
+  track('pool_finish_compare',{finish_id:finishNames[Math.round(finishPosition/50)].toLowerCase().replace(/[^a-z0-9]+/g,'_')});
+ }
+ finishStage.setAttribute('role','slider');
+ finishStage.setAttribute('tabindex','0');
+ finishStage.setAttribute('aria-label','Swipe to compare light, warm and dark pool finishes');
+ finishStage.setAttribute('aria-valuemin','0');
+ finishStage.setAttribute('aria-valuemax','100');
+ finishStage.addEventListener('pointerdown',event=>{dragging=true;finishStage.setPointerCapture(event.pointerId);setFromPointer(event);});
+ finishStage.addEventListener('pointermove',event=>{if(dragging)setFromPointer(event);});
+ finishStage.addEventListener('pointerup',finishDrag);
+ finishStage.addEventListener('pointercancel',finishDrag);
+ finishStage.addEventListener('keydown',event=>{
+  let next=finishPosition;
+  if(event.key==='ArrowLeft'||event.key==='ArrowDown')next-=5;
+  else if(event.key==='ArrowRight'||event.key==='ArrowUp')next+=5;
+  else if(event.key==='Home')next=0;
+  else if(event.key==='End')next=100;
+  else return;
+  event.preventDefault();setFinish(next);
+ });
+ finishOptions.forEach((button,index)=>button.addEventListener('click',()=>{setFinish(index*50);track('pool_finish_option',{finish_id:finishNames[index].toLowerCase().replace(/[^a-z0-9]+/g,'_')});}));
+ finishRange.value='50';
+ setFinish(50);
 }

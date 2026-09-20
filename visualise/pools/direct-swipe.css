@@ -1,0 +1,21 @@
+/* The visible comparison handle is the control; avoid a duplicate range UI. */
+.finish-stage {
+  cursor: ew-resize;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.finish-stage:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 4px;
+}
+
+.finish-range-label,
+.finish-range,
+.finish-instruction {
+  display: none;
+}
+
+.finish-options {
+  margin-top: 22px;
+}
