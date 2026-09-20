@@ -18,7 +18,7 @@ function gtag(){window.dataLayer.push(arguments);}
 function track(name, props={}) {if(!internal) gtag('event',name,{offer_id:'pool_99_v1',page_version:'cinema_v3_fastvideo',...context,...props});}
 function mediaState(video){const error=video.error;return {media_error_code:error?.code||0,network_state:video.networkState,ready_state:video.readyState,current_src:(video.currentSrc||video.getAttribute('src')||video.dataset.src||'').split('/').pop(),connection_type:navigator.connection?.effectiveType||'unknown',save_data:Boolean(navigator.connection?.saveData)};}
 if(!internal){window.gtag=gtag;gtag('js',new Date());gtag('config',measurementId,{page_location:clean.href,page_referrer:document.referrer ? new URL(document.referrer).origin+'/' : '',send_page_view:true});const tag=document.createElement('script');tag.async=true;tag.src='https://www.googletagmanager.com/gtag/js?id='+measurementId;document.head.append(tag);track('pool_page_loaded',{landing_hash:clean.hash||'none'});[15,30,60,120].forEach(seconds=>setTimeout(()=>track('pool_time_on_page',{seconds}),seconds*1000));}
-const heroVideo=document.querySelector('.hero-background');
+const heroVideo=document.querySelector('.hero-background');heroVideo.muted=true;heroVideo.defaultMuted=true;heroVideo.playsInline=true;
 const heroMotion=document.querySelector('.hero-motion');
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
 let heroUserPaused=false;
