@@ -148,3 +148,26 @@ filmPlayer.addEventListener('seeked',()=>track('pool_video_seek',{film_id:active
 filmPlayer.addEventListener('error',()=>{if(filmPlayer.getAttribute('src'))track('pool_video_error',{film_id:activeFilm,...mediaState(filmPlayer)});});
 filmDialog.addEventListener('close',()=>track('pool_video_close',{film_id:activeFilm}));
 document.querySelectorAll('details').forEach((item,index)=>item.addEventListener('toggle',()=>{if(!item.open)track('pool_faq_close',{faq_id:'faq_'+(index+1)});}));
+
+// Three-way, touch-friendly finish comparison for proposal conversations.
+const finishComparison=document.querySelector('[data-finish-comparison]');
+if(finishComparison){
+ const finishRange=finishComparison.querySelector('[data-finish-range]');
+ const finishImages=[...finishComparison.querySelectorAll('[data-finish-image]')];
+ const finishOptions=[...finishComparison.querySelectorAll('[data-finish-option]')];
+ const finishName=finishComparison.querySelector('[data-finish-name]');
+ const finishNames=['Light + Coastal','Warm + Natural','Dark + Architectural'];
+ function setFinish(value){
+  const position=Math.max(0,Math.min(100,Number(value)));
+  const progress=position/50;
+  const selected=Math.round(progress);
+  finishComparison.style.setProperty('--finish-position',position+'%');
+  finishImages.forEach((image,index)=>{image.style.opacity=String(Math.max(0,1-Math.abs(progress-index)));image.classList.toggle('is-active',index===selected);});
+  finishOptions.forEach((button,index)=>button.setAttribute('aria-pressed',String(index===selected)));
+  finishName.textContent=finishNames[selected];
+ }
+ finishRange.addEventListener('input',()=>setFinish(finishRange.value));
+ finishRange.addEventListener('change',()=>track('pool_finish_compare',{finish_id:finishNames[Math.round(Number(finishRange.value)/50)].toLowerCase().replace(/[^a-z0-9]+/g,'_')}));
+ finishOptions.forEach((button,index)=>button.addEventListener('click',()=>{finishRange.value=String(index*50);setFinish(finishRange.value);track('pool_finish_option',{finish_id:finishNames[index].toLowerCase().replace(/[^a-z0-9]+/g,'_')});}));
+ setFinish(finishRange.value);
+}
