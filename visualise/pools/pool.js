@@ -27,7 +27,16 @@ function syncHeroButton(){const playing=!heroVideo.paused;heroMotion.textContent
 let heroRequestedAt=0;
 heroMotion.addEventListener('click',()=>{if(heroVideo.paused){heroUserPaused=false;const firstLoad=!heroVideo.getAttribute('src');if(firstLoad){loadHero();heroRequestedAt=performance.now();track('pool_video_request',{film_id:'hero',...mediaState(heroVideo)});}heroVideo.play().catch(()=>{});}else{heroUserPaused=true;heroVideo.pause();}});
 heroVideo.addEventListener('playing',()=>{syncHeroButton();track('pool_hero_video_play',{startup_ms:heroRequestedAt?Math.round(performance.now()-heroRequestedAt):0,...mediaState(heroVideo)});});heroVideo.addEventListener('pause',syncHeroButton);
-// Performance: keep the poster as first paint. Never fetch the hero MP4 until the visitor explicitly taps Play film.
+// Performance: keep the poster as first paint, then autoplay the tiny silent hero
+// after the page is ready. Data Saver and reduced-motion users keep the poster.
+function autoplayHero(){
+ if(reducedMotion.matches||navigator.connection?.saveData||heroUserPaused||heroVideo.getAttribute('src'))return;
+ loadHero(); heroRequestedAt=performance.now();
+ track('pool_video_request',{film_id:'hero',...mediaState(heroVideo),autoplay:true});
+ heroVideo.play().catch(()=>{});
+}
+if(document.readyState==='complete') setTimeout(autoplayHero,0);
+else addEventListener('load',()=>setTimeout(autoplayHero,0),{once:true});
 reducedMotion.addEventListener('change',e=>{if(e.matches){heroUserPaused=true;heroVideo.pause();}});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)heroVideo.pause();else if(!heroUserPaused&&!reducedMotion.matches&&heroVideo.getAttribute('src'))heroVideo.play().catch(()=>{});});
 // Package film and image thumbnails update the existing large viewer without navigation.
