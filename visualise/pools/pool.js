@@ -147,7 +147,7 @@ function openSampleForm(placement){
  const copy=document.querySelector('#notice-copy');
  dialog.querySelector('.eyebrow').textContent='MONOº / Free sample';
  title.textContent='Get your first pool image free.';
- copy.innerHTML='<p>Leave your details, then email Robin your backyard photos and a few lines about the pool you’re proposing.</p><form class="sample-form"><label>First name<input name="firstName" autocomplete="given-name" required></label><label>Last name<input name="lastName" autocomplete="family-name" required></label><label>Email address<input name="email" type="email" autocomplete="email" required></label><button class="button" type="submit">Continue to email Robin ↗</button><p class="sample-form-note">Your email app will open next so you can attach the photos. No payment is required.</p></form>';
+ copy.innerHTML='<p>Leave your details, then email Robin your backyard photos and a few lines about the pool you’re proposing.</p><form class="sample-form"><label>First name<input name="firstName" autocomplete="given-name" required></label><label>Last name <span class="optional">Optional</span><input name="lastName" autocomplete="family-name"></label><label>Email address<input name="email" type="email" autocomplete="email" required></label><button class="button" type="submit">Continue to email Robin ↗</button><p class="sample-form-note">Your email app will open next so you can attach the photos. No payment is required.</p></form>';
  const form=copy.querySelector('form');
  form.addEventListener('submit',event=>{
   event.preventDefault();
@@ -156,8 +156,9 @@ function openSampleForm(placement){
   const first=String(data.get('firstName')).trim();
   const last=String(data.get('lastName')).trim();
   const email=String(data.get('email')).trim();
-  const subject=encodeURIComponent('Free pool sample image — '+first+' '+last);
-  const body=encodeURIComponent('Hi Robin,\n\nI’d like to get my first pool concept image free.\n\nName: '+first+' '+last+'\nEmail: '+email+'\n\nI’ll attach my backyard photos and include a few notes about the pool I’m proposing.\n\nThanks,\n'+first);
+  const fullName=[first,last].filter(Boolean).join(' ');
+  const subject=encodeURIComponent('Free pool sample image — '+fullName);
+  const body=encodeURIComponent('Hi Robin,\n\nI’d like to get my first pool concept image free.\n\nName: '+fullName+'\nEmail: '+email+'\n\nI’ll attach my backyard photos and include a few notes about the pool I’m proposing.\n\nThanks,\n'+first);
   track('pool_sample_form_complete',{placement});
   location.href='mailto:robin@monohq.co?subject='+subject+'&body='+body;
  });
