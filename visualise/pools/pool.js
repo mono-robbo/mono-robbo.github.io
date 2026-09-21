@@ -193,6 +193,7 @@ if(finishComparison){
  const finishNames=['Light + Coastal','Warm + Natural','Dark + Architectural'];
  let finishPosition=50;
  let dragging=false;
+ finishImages.forEach(image=>{image.draggable=false;image.addEventListener('dragstart',event=>event.preventDefault());});
  function setFinish(value){
   const position=Math.max(0,Math.min(100,Number(value)));
   finishPosition=position;
@@ -219,7 +220,7 @@ if(finishComparison){
  finishStage.setAttribute('aria-label','Swipe to compare light, warm and dark pool finishes');
  finishStage.setAttribute('aria-valuemin','0');
  finishStage.setAttribute('aria-valuemax','100');
- finishStage.addEventListener('pointerdown',event=>{dragging=true;finishStage.setPointerCapture(event.pointerId);setFromPointer(event);});
+ finishStage.addEventListener('pointerdown',event=>{event.preventDefault();dragging=true;finishStage.setPointerCapture(event.pointerId);setFromPointer(event);});
  finishStage.addEventListener('pointermove',event=>{if(dragging)setFromPointer(event);});
  finishStage.addEventListener('pointerup',finishDrag);
  finishStage.addEventListener('pointercancel',finishDrag);
