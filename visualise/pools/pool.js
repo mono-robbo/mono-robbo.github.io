@@ -1,6 +1,8 @@
 /* Link verified end-to-end at A$90 + A$9 GST in Stripe sandbox. */
 const CHECKOUT_URL = 'https://buy.stripe.com/fZubJ1gtqgAJb6FfiBdUY01';
 const CHECKOUT_READY = true;
+// Set to the deployed Cloudflare Worker URL only after Gmail delivery is configured.
+const SAMPLE_REQUEST_ENDPOINT = '';
 // Initialise measurement before optional media features so analytics still loads
 // if a browser cannot support one of the richer video interactions below.
 const measurementId = 'G-NHGGBL110F';
@@ -147,24 +149,48 @@ function openSampleForm(placement){
  const copy=document.querySelector('#notice-copy');
  dialog.querySelector('.eyebrow').textContent='MONOº / Free sample';
  title.textContent='Get your first pool image free.';
- copy.innerHTML='<p>Leave your details, then email Robin your backyard photos and a few lines about the pool you’re proposing.</p><form class="sample-form"><label>First name<input name="firstName" autocomplete="given-name" required></label><label>Last name <span class="optional">Optional</span><input name="lastName" autocomplete="family-name"></label><label>Email address<input name="email" type="email" autocomplete="email" required></label><button class="button" type="submit">Continue to email Robin ↗</button><p class="sample-form-note">Your email app will open next so you can attach the photos. No payment is required.</p></form>';
+ copy.innerHTML='<p>Leave your details and Robin will email you exactly what to send through.</p><form class="sample-form"><label>First name<input name="firstName" autocomplete="given-name" required></label><label>Last name <span class="optional">Optional</span><input name="lastName" autocomplete="family-name"></label><label>Email address<input name="email" type="email" autocomplete="email" required></label><input class="sample-honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="button" type="submit">Continue to email Robin ↗</button><p class="sample-form-note">We’ll only use your details to respond to this sample request. We won’t add you to marketing emails. <a href="./privacy.html">Privacy notice</a></p></form>';
  const form=copy.querySelector('form');
  form.addEventListener('submit',event=>{
   event.preventDefault();
   if(!form.reportValidity())return;
   const data=new FormData(form);
-  const first=String(data.get('firstName')).trim();
-  const last=String(data.get('lastName')).trim();
-  const email=String(data.get('email')).trim();
-  const fullName=[first,last].filter(Boolean).join(' ');
-  const subject=encodeURIComponent('Free pool sample image — '+fullName);
-  const body=encodeURIComponent('Hi Robin,\n\nI’d like to get my first pool concept image free.\n\nName: '+fullName+'\nEmail: '+email+'\n\nI’ll attach my backyard photos and include a few notes about the pool I’m proposing.\n\nThanks,\n'+first);
-  track('pool_sample_form_complete',{placement});
-  location.href='mailto:robin@monohq.co?subject='+subject+'&body='+body;
+  showSampleConfirmation({firstName:String(data.get('firstName')).trim(),lastName:String(data.get('lastName')).trim(),email:String(data.get('email')).trim(),website:String(data.get('website')).trim(),placement});
  });
  dialog.showModal();
  copy.querySelector('input').focus();
  track('pool_sample_form_open',{placement});
+}
+function showSampleConfirmation(request){
+ const title=document.querySelector('#notice-title');
+ const copy=document.querySelector('#notice-copy');
+ const safeEmail=document.createElement('span');safeEmail.textContent=request.email;
+ dialog.querySelector('.eyebrow').textContent='MONOº / Free sample';
+ title.textContent='Request your sample.';
+ copy.replaceChildren();
+ const intro=document.createElement('p');intro.append('We’ll send the next steps to ',safeEmail,'. You can reply with backyard photos and a few notes about the pool you’re proposing.');
+ const button=document.createElement('button');button.className='button sample-request-submit';button.type='button';button.textContent='Request the sample';
+ const note=document.createElement('p');note.className='sample-form-note';note.textContent='No payment is required. We won’t add you to marketing emails.';
+ copy.append(intro,button,note);
+ button.addEventListener('click',async()=>{
+  if(!SAMPLE_REQUEST_ENDPOINT){notice('Sample requests are nearly ready.','Please email robin@monohq.co to request your free sample in the meantime.');return;}
+  button.disabled=true;button.textContent='Sending request…';
+  try{
+   const response=await fetch(SAMPLE_REQUEST_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(request)});
+   const result=await response.json().catch(()=>({}));
+   if(!response.ok)throw new Error(result.error||'Unable to send request');
+   dialog.querySelector('.eyebrow').textContent='MONOº / Request received';
+   title.textContent='Check your inbox.';
+   copy.innerHTML='<p>Thanks — we’ve emailed you the photos and project details to send through. Robin will be in touch once we’ve reviewed your brief.</p>';
+   track('pool_sample_request_sent',{placement:request.placement});
+  }catch(error){
+   button.disabled=false;button.textContent='Request the sample';
+   const errorCopy=document.createElement('p');errorCopy.className='sample-form-error';errorCopy.textContent='We couldn’t send your request. Please try again or email robin@monohq.co.';
+   copy.querySelector('.sample-form-error')?.remove();copy.append(errorCopy);
+   track('pool_sample_request_error',{placement:request.placement});
+  }
+ });
+ track('pool_sample_form_complete',{placement:request.placement});
 }
 sampleButtons.forEach(button=>button.addEventListener('click',()=>openSampleForm(button.dataset.checkout)));
 document.querySelectorAll('[data-cta]').forEach(a=>a.addEventListener('click',()=>track('pool_offer_navigation',{placement:a.dataset.cta})));
