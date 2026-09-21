@@ -1,8 +1,8 @@
 /* Link verified end-to-end at A$90 + A$9 GST in Stripe sandbox. */
 const CHECKOUT_URL = 'https://buy.stripe.com/fZubJ1gtqgAJb6FfiBdUY01';
 const CHECKOUT_READY = true;
-// Set to the deployed Cloudflare Worker URL only after Gmail delivery is configured.
-const SAMPLE_REQUEST_ENDPOINT = '';
+// The endpoint accepts requests only from the MONO pool landing page.
+const SAMPLE_REQUEST_ENDPOINT = 'https://mono-pool-sample-request.mono-pools.workers.dev/sample-request';
 // Initialise measurement before optional media features so analytics still loads
 // if a browser cannot support one of the richer video interactions below.
 const measurementId = 'G-NHGGBL110F';
