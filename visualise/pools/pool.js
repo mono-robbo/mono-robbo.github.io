@@ -122,17 +122,31 @@ const dialog=document.querySelector('#notice');
 function notice(title,copy){document.querySelector('#notice-title').textContent=title;document.querySelector('#notice-copy').replaceChildren();const p=document.createElement('p');p.textContent=copy;document.querySelector('#notice-copy').append(p);dialog.showModal();}
 document.querySelector('.close').addEventListener('click',()=>dialog.close());
 dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
-document.querySelectorAll('[data-checkout]').forEach(button=>button.addEventListener('click',()=>{
- track('pool_cta_click',{placement:button.dataset.checkout,checkout_available:CHECKOUT_READY});
- if(!CHECKOUT_READY){notice('Checkout is being prepared.','The A$99 pool package checkout is temporarily unavailable. No order has been placed. Questions? Email robin@monohq.co.');return;}
- const destination=MONOCheckout.buildCheckoutUrl(CHECKOUT_URL,context);
- let redirected=false;
- const redirect=()=>{if(!redirected){redirected=true;location.assign(destination);}};
- track('checkout_redirect',{placement:button.dataset.checkout});
- track('begin_checkout',{currency:'AUD',value:90,items:[{item_id:'pool_99_v1',item_name:'Pool concept package',price:90,quantity:1}],event_callback:redirect,event_timeout:500});
- // A blocked analytics tag must never prevent checkout.
- setTimeout(redirect,550);
-}));
+const sampleButtons=[...document.querySelectorAll('[data-checkout]')];
+sampleButtons.forEach(button=>{button.textContent='Get your first image free ↗';});
+function openSampleForm(placement){
+ const title=document.querySelector('#notice-title');
+ const copy=document.querySelector('#notice-copy');
+ title.textContent='Get your first pool image free.';
+ copy.innerHTML='<p>Leave your details, then email Robin your backyard photos and a few lines about the pool you’re proposing.</p><form class="sample-form"><label>First name<input name="firstName" autocomplete="given-name" required></label><label>Last name<input name="lastName" autocomplete="family-name" required></label><label>Email address<input name="email" type="email" autocomplete="email" required></label><button class="button" type="submit">Continue to email Robin ↗</button><p class="sample-form-note">Your email app will open next so you can attach the photos. No payment is required.</p></form>';
+ const form=copy.querySelector('form');
+ form.addEventListener('submit',event=>{
+  event.preventDefault();
+  if(!form.reportValidity())return;
+  const data=new FormData(form);
+  const first=String(data.get('firstName')).trim();
+  const last=String(data.get('lastName')).trim();
+  const email=String(data.get('email')).trim();
+  const subject=encodeURIComponent('Free pool sample image — '+first+' '+last);
+  const body=encodeURIComponent('Hi Robin,\n\nI’d like to get my first pool concept image free.\n\nName: '+first+' '+last+'\nEmail: '+email+'\n\nI’ll attach my backyard photos and include a few notes about the pool I’m proposing.\n\nThanks,\n'+first);
+  track('pool_sample_form_complete',{placement});
+  location.href='mailto:robin@monohq.co?subject='+subject+'&body='+body;
+ });
+ dialog.showModal();
+ copy.querySelector('input').focus();
+ track('pool_sample_form_open',{placement});
+}
+sampleButtons.forEach(button=>button.addEventListener('click',()=>openSampleForm(button.dataset.checkout)));
 document.querySelectorAll('[data-cta]').forEach(a=>a.addEventListener('click',()=>track('pool_offer_navigation',{placement:a.dataset.cta})));
 document.querySelectorAll('[data-email]').forEach(a=>a.addEventListener('click',()=>track('pool_email_click',{placement:a.dataset.email})));
 document.querySelectorAll('details').forEach((item,index)=>item.addEventListener('toggle',()=>{if(item.open)track('pool_faq_open',{faq_id:'faq_'+(index+1)});}));
