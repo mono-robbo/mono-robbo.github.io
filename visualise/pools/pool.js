@@ -124,9 +124,28 @@ document.querySelector('.close').addEventListener('click',()=>dialog.close());
 dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
 const sampleButtons=[...document.querySelectorAll('[data-checkout]')];
 sampleButtons.forEach(button=>{button.textContent='Get your first image free ↗';});
+const processSection=document.querySelector('#process');
+if(processSection){
+ processSection.querySelector('.eyebrow').textContent='A simple first step.';
+ processSection.querySelector('h2').innerHTML='Show us the backyard.<br>We’ll show you the possibility.';
+ const steps=[...processSection.querySelectorAll('.steps article')];
+ const stepCopy=[
+  ['Request your free image.','Leave your name and email. There’s no payment required for your first sample image.'],
+  ['Email Robin your photos.','Attach clear backyard photos and add a few lines about the pool you’re proposing. Plans and finish references are welcome if you have them.'],
+  ['See the idea take shape.','We’ll review your brief, get in touch if anything essential is missing, and create your free sample image.']
+ ];
+ steps.forEach((step,index)=>{step.querySelector('h3').textContent=stepCopy[index][0];step.querySelector('p').textContent=stepCopy[index][1];});
+}
+const packageFine=document.querySelector('#package .fine.pale');
+if(packageFine)packageFine.innerHTML='Start with a free sample image.<br>Continue with the complete A$99 package when you’re ready.';
+const finalFine=document.querySelector('.final .fine');
+if(finalFine)finalFine.innerHTML='Email Robin your backyard photos.<br>No payment is required for your first sample image.';
+const mobileOffer=document.querySelector('.mobile-bar span');
+if(mobileOffer)mobileOffer.innerHTML='<b>First image free</b> / send us your photos';
 function openSampleForm(placement){
  const title=document.querySelector('#notice-title');
  const copy=document.querySelector('#notice-copy');
+ dialog.querySelector('.eyebrow').textContent='MONOº / Free sample';
  title.textContent='Get your first pool image free.';
  copy.innerHTML='<p>Leave your details, then email Robin your backyard photos and a few lines about the pool you’re proposing.</p><form class="sample-form"><label>First name<input name="firstName" autocomplete="given-name" required></label><label>Last name<input name="lastName" autocomplete="family-name" required></label><label>Email address<input name="email" type="email" autocomplete="email" required></label><button class="button" type="submit">Continue to email Robin ↗</button><p class="sample-form-note">Your email app will open next so you can attach the photos. No payment is required.</p></form>';
  const form=copy.querySelector('form');
