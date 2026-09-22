@@ -125,7 +125,7 @@ function notice(title,copy){document.querySelector('#notice-title').textContent=
 document.querySelector('.close').addEventListener('click',()=>dialog.close());
 dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
 const sampleButtons=[...document.querySelectorAll('[data-checkout]')];
-sampleButtons.forEach(button=>{button.textContent='Request a sample ↗';});
+sampleButtons.forEach(button=>{button.textContent='Request a free sample ↗';});
 const processSection=document.querySelector('#process');
 if(processSection){
  processSection.querySelector('.eyebrow').textContent='A simple first step.';
