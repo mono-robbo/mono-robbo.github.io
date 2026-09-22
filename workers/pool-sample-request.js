@@ -86,7 +86,7 @@ export default {
       html: `<p>Hi ${safeFirstName},</p><p>Thanks for requesting your free pool image.</p><p>Reply to this email with <strong>3–6 clear backyard photos</strong> and a few lines about the pool you’re proposing.</p><p>Helpful details:</p><ul><li>pool shape or size</li><li>where it sits in the yard</li><li>finishes or features that matter</li><li>any plans, quotes or references you already have</li></ul><p>We’ll review it and get in touch if anything essential is missing.</p><p>Robin<br>MONO</p>`
     };
     const internal = {
-      from, to: env.NOTIFY_EMAIL, subject: `New MONO sample request — ${fullName}`, replyTo: email,
+      from, to: env.NOTIFY_EMAIL, subject: `New MONO sample request - ${fullName}`, replyTo: email,
       text: `New free pool image request\n\nName: ${fullName}\nEmail: ${email}\nSource: ${String(payload.placement || 'website').slice(0, 80)}\n\nThe customer has been sent the photo-and-brief request.`,
       html: `<p><strong>New free pool image request</strong></p><p>Name: ${escapeHtml(fullName)}<br>Email: <a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a><br>Source: ${escapeHtml(String(payload.placement || 'website').slice(0, 80))}</p><p>The customer has been sent the photo-and-brief request.</p>`
     };
