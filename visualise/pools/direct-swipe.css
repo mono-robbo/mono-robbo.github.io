@@ -34,6 +34,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   margin-top: 24px;
+  min-width: 0;
 }
 
 .sample-form label {
@@ -57,12 +58,21 @@
 
 .sample-form input {
   width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 13px 14px;
   background: white;
   color: var(--ink);
   font: inherit;
+}
+
+/* Keep the modal form within its viewport; it has no horizontal control. */
+#notice,
+#notice-copy {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .sample-form input:focus {
