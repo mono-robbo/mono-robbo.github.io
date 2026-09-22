@@ -172,7 +172,7 @@ async function sendSampleRequest(request,button){
   if(!response.ok)throw new Error(result.error||'Unable to send request');
   dialog.querySelector('.eyebrow').textContent='MONOº / Request received';
   title.textContent='Check your inbox.';
-  copy.innerHTML='<p>Thanks — we’ve emailed you the photos and project details to send through. Robin will be in touch once we’ve reviewed your brief.</p>';
+  copy.innerHTML='<p>Thanks - we\'ve emailed you a confirmation and the instruction to get your free sample. Please check your inbox!</p>';
   track('pool_sample_request_sent',{placement:request.placement});
  }catch(error){
   button.disabled=false;button.textContent='Request a free sample!';
