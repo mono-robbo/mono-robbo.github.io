@@ -127,7 +127,15 @@ dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoun
 const sampleButtons=[...document.querySelectorAll('[data-checkout]')];
 sampleButtons.forEach(button=>{button.textContent='Request a free sample ↗';});
 const packagePrice=document.querySelector('#package .price');
-if(packagePrice)packagePrice.innerHTML='<s style="font-size:.5em;letter-spacing:-.04em;color:#bdbdce;margin-right:10px;text-decoration-thickness:2px">A$199</s> A$99<span>including GST · introductory price</span>';
+if(packagePrice){
+ packagePrice.innerHTML='<s class="price-was">A$199</s> <strong class="price-current">A$99</strong><span>including GST · introductory price</span>';
+ const revealPrice=()=>packagePrice.classList.add('is-revealed');
+ if(matchMedia('(prefers-reduced-motion: reduce)').matches)revealPrice();
+ else{
+  const priceObserver=new IntersectionObserver((entries,observer)=>{if(entries[0].isIntersecting){revealPrice();observer.disconnect();}},{threshold:.45});
+  priceObserver.observe(packagePrice);
+ }
+}
 const stripPrice=[...document.querySelectorAll('.strip .wrap span')].at(-1);
 if(stripPrice)stripPrice.innerHTML='<s>A$199</s> <b>A$99</b> introductory price';
 const processSection=document.querySelector('#process');

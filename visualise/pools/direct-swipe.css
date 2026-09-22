@@ -108,6 +108,52 @@
   font-size: 12px;
 }
 
+/* A small, considered price reveal—no movement for reduced-motion visitors. */
+#package .price .price-was,
+#package .price .price-current {
+  display: inline-block;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+#package .price .price-was {
+  margin-right: 10px;
+  color: #bdbdce;
+  font-size: .5em;
+  letter-spacing: -.04em;
+  text-decoration-thickness: 2px;
+  transform: translateX(-12px);
+}
+
+#package .price .price-current {
+  transform: translateY(14px) scale(.96);
+}
+
+#package .price.is-revealed .price-was {
+  animation: price-was-reveal .5s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+#package .price.is-revealed .price-current {
+  animation: price-current-reveal .68s .13s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+@keyframes price-was-reveal {
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes price-current-reveal {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #package .price .price-was,
+  #package .price .price-current {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
 @media (max-width: 650px) {
   .sample-form { grid-template-columns: 1fr; }
   .sample-form label { grid-column: 1; }
