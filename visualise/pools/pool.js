@@ -126,6 +126,10 @@ document.querySelector('.close').addEventListener('click',()=>dialog.close());
 dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
 const sampleButtons=[...document.querySelectorAll('[data-checkout]')];
 sampleButtons.forEach(button=>{button.textContent='Request a free sample ↗';});
+const packagePrice=document.querySelector('#package .price');
+if(packagePrice)packagePrice.innerHTML='<s style="font-size:.5em;letter-spacing:-.04em;color:#bdbdce;margin-right:10px;text-decoration-thickness:2px">A$199</s> A$99<span>including GST · introductory price</span>';
+const stripPrice=[...document.querySelectorAll('.strip .wrap span')].at(-1);
+if(stripPrice)stripPrice.innerHTML='<s>A$199</s> <b>A$99</b> introductory price';
 const processSection=document.querySelector('#process');
 if(processSection){
  processSection.querySelector('.eyebrow').textContent='A simple first step.';
