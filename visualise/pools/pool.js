@@ -138,6 +138,17 @@ if(packagePrice){
 }
 const stripPrice=[...document.querySelectorAll('.strip .wrap span')].at(-1);
 if(stripPrice)stripPrice.innerHTML='<s>A$199</s> <b>A$99</b> introductory price';
+// Lightweight entrance motion: content only, triggered once as it comes into view.
+// It does not run for visitors who request reduced motion.
+if(!reducedMotion.matches){
+ const motionTargets=[...document.querySelectorAll('main > section:not(#intro), .strip, footer, .hero-content, .hero-bottom')];
+ motionTargets.forEach((target,index)=>{target.classList.add('motion-reveal');target.style.setProperty('--motion-delay',`${Math.min(index,4)*45}ms`);});
+ document.documentElement.classList.add('motion-ready');
+ if('IntersectionObserver' in window){
+  const motionObserver=new IntersectionObserver((entries,observer)=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target);}}),{threshold:.08,rootMargin:'0px 0px -6%'});
+  motionTargets.forEach(target=>motionObserver.observe(target));
+ }else motionTargets.forEach(target=>target.classList.add('is-visible'));
+}
 const processSection=document.querySelector('#process');
 if(processSection){
  processSection.querySelector('.eyebrow').textContent='A simple first step.';
