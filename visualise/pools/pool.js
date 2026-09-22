@@ -141,7 +141,7 @@ if(processSection){
 const packageFine=document.querySelector('#package .fine.pale');
 if(packageFine)packageFine.innerHTML='Start with a free sample image.<br>Continue with the complete A$99 package when you’re ready.';
 const finalFine=document.querySelector('.final .fine');
-if(finalFine)finalFine.innerHTML='Email Robin your backyard photos.<br>No payment is required for your first sample image.';
+if(finalFine)finalFine.textContent='No payment is required for your first sample image.';
 const mobileOffer=document.querySelector('.mobile-bar span');
 if(mobileOffer)mobileOffer.innerHTML='<b>First image free</b> / send us your photos';
 function openSampleForm(placement){
