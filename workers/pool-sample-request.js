@@ -76,19 +76,33 @@ export default {
     if (payload.website || !firstName || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ error: 'Please enter your first name and a valid email address.' }, 400, request);
     if (!env.GOOGLE_CLIENT_ID || !env.GOOGLE_CLIENT_SECRET || !env.GOOGLE_REFRESH_TOKEN || !env.GMAIL_SENDER || !env.NOTIFY_EMAIL) return json({ error: 'Sample requests are not ready yet. Please email robin@monohq.co.' }, 503, request);
 
+    const cohort = payload.cohort === 'granny_flat' ? 'granny_flat' : 'pool';
     const fullName = [firstName, lastName].filter(Boolean).join(' ');
     const safeFirstName = escapeHtml(firstName);
     const accessToken = await gmailToken(env);
     const from = `Robin at MONO <${env.GMAIL_SENDER}>`;
+    const brief = cohort === 'granny_flat'
+      ? {
+          label: 'granny flat',
+          request: '3–6 clear site and backyard photos',
+          details: '<li>the proposed size, layout or number of bedrooms</li><li>where it sits on the site</li><li>facade, materials or features that matter</li><li>any plans, survey, quote or references you already have</li>',
+          textDetails: 'the proposed size, layout or number of bedrooms; where it sits on the site; facade, materials or features that matter; and any plans, survey, quote or references you already have.'
+        }
+      : {
+          label: 'pool',
+          request: '3–6 clear backyard photos',
+          details: '<li>pool shape or size</li><li>where it sits in the yard</li><li>finishes or features that matter</li><li>any plans, quotes or references you already have</li>',
+          textDetails: 'pool shape or size; where it sits in the yard; finishes or features that matter; and any plans, quotes or references you already have.'
+        };
     const customer = {
-      from, to: email, subject: 'Your MONO pool image sample request', replyTo: env.GMAIL_SENDER,
-      text: `Hi ${firstName},\n\nThanks for requesting your free pool image. Reply to this email with 3–6 clear backyard photos and a few lines about the pool you’re proposing.\n\nHelpful details: pool shape or size, where it sits in the yard, finishes or features that matter, and any plans, quotes or references you already have.\n\nWe’ll review it and get in touch if anything essential is missing.\n\nRobin\nMONO`,
-      html: `<p>Hi ${safeFirstName},</p><p>Thanks for requesting your free pool image.</p><p>Reply to this email with <strong>3–6 clear backyard photos</strong> and a few lines about the pool you’re proposing.</p><p>Helpful details:</p><ul><li>pool shape or size</li><li>where it sits in the yard</li><li>finishes or features that matter</li><li>any plans, quotes or references you already have</li></ul><p>We’ll review it and get in touch if anything essential is missing.</p><p>Robin<br>MONO</p>`
+      from, to: email, subject: `Your MONO ${brief.label} image sample request`, replyTo: env.GMAIL_SENDER,
+      text: `Hi ${firstName},\n\nThanks for requesting your free ${brief.label} image. Reply to this email with ${brief.request} and a few lines about the ${brief.label} you’re proposing.\n\nHelpful details: ${brief.textDetails}\n\nWe’ll review it and get in touch if anything essential is missing.\n\nRobin\nMONO`,
+      html: `<p>Hi ${safeFirstName},</p><p>Thanks for requesting your free ${brief.label} image.</p><p>Reply to this email with <strong>${brief.request}</strong> and a few lines about the ${brief.label} you’re proposing.</p><p>Helpful details:</p><ul>${brief.details}</ul><p>We’ll review it and get in touch if anything essential is missing.</p><p>Robin<br>MONO</p>`
     };
     const internal = {
-      from, to: env.NOTIFY_EMAIL, subject: `New MONO sample request - ${fullName}`, replyTo: email,
-      text: `New free pool image request\n\nName: ${fullName}\nEmail: ${email}\nSource: ${String(payload.placement || 'website').slice(0, 80)}\n\nThe customer has been sent the photo-and-brief request.`,
-      html: `<p><strong>New free pool image request</strong></p><p>Name: ${escapeHtml(fullName)}<br>Email: <a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a><br>Source: ${escapeHtml(String(payload.placement || 'website').slice(0, 80))}</p><p>The customer has been sent the photo-and-brief request.</p>`
+      from, to: env.NOTIFY_EMAIL, subject: `New MONO ${brief.label} sample request - ${fullName}`, replyTo: email,
+      text: `New free ${brief.label} image request\n\nName: ${fullName}\nEmail: ${email}\nSource: ${String(payload.placement || 'website').slice(0, 80)}\n\nThe customer has been sent the photo-and-brief request.`,
+      html: `<p><strong>New free ${brief.label} image request</strong></p><p>Name: ${escapeHtml(fullName)}<br>Email: <a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a><br>Source: ${escapeHtml(String(payload.placement || 'website').slice(0, 80))}</p><p>The customer has been sent the photo-and-brief request.</p>`
     };
     try { await Promise.all([sendGmail(accessToken, customer), sendGmail(accessToken, internal)]); }
     catch (_) { return json({ error: 'We could not send your request. Please try again or email robin@monohq.co.' }, 502, request); }

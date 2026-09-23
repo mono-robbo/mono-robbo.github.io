@@ -1,0 +1,202 @@
+/* The visible comparison handle is the control; avoid a duplicate range UI. */
+.finish-stage {
+  cursor: ew-resize;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.finish-stage img {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+}
+
+.finish-stage:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 4px;
+}
+
+.finish-range-label,
+.finish-range,
+.finish-instruction {
+  display: none;
+}
+
+.finish-options {
+  margin-top: 22px;
+}
+
+.sample-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 24px;
+  min-width: 0;
+}
+
+.sample-form label {
+  display: grid;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.sample-form .optional {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.sample-form label:last-of-type,
+.sample-form .button,
+.sample-form-note {
+  grid-column: 1 / -1;
+}
+
+.sample-form input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 13px 14px;
+  background: white;
+  color: var(--ink);
+  font: inherit;
+}
+
+/* Keep the modal form within its viewport; it has no horizontal control. */
+#notice,
+#notice-copy {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.sample-form input:focus {
+  border-color: var(--blue);
+  outline: 2px solid #1414f733;
+}
+
+.sample-form .button {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.sample-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.sample-request-submit {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.sample-form-error {
+  color: #a11;
+  font-size: 13px;
+}
+
+.sample-form-note {
+  margin: 0;
+  font-size: 12px;
+}
+
+/* A small, considered price reveal—no movement for reduced-motion visitors. */
+#package .price .price-was,
+#package .price .price-current {
+  display: inline-block;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+#package .price .price-was {
+  margin-right: 10px;
+  color: #bdbdce;
+  font-size: .5em;
+  letter-spacing: -.04em;
+  text-decoration-thickness: 2px;
+  transform: translateX(-12px);
+}
+
+#package .price .price-current {
+  transform: translateY(14px) scale(.96);
+}
+
+#package .price.is-revealed .price-was {
+  animation: price-was-reveal .5s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+#package .price.is-revealed .price-current {
+  animation: price-current-reveal .68s .13s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+@keyframes price-was-reveal {
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes price-current-reveal {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #package .price .price-was,
+  #package .price .price-current {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+/* Page-wide entrance motion stays deliberately quiet and never blocks content. */
+html.motion-ready .motion-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity .72s var(--motion-delay, 0ms) cubic-bezier(.16, 1, .3, 1),
+    transform .72s var(--motion-delay, 0ms) cubic-bezier(.16, 1, .3, 1);
+}
+
+html.motion-ready .motion-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (hover: hover) {
+  .film-card,
+  .comparison .media,
+  .finish-options button {
+    transition: transform .35s cubic-bezier(.16, 1, .3, 1), box-shadow .35s ease, filter .35s ease;
+  }
+
+  .film-card:hover,
+  .comparison .media:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 32px #1111211f;
+  }
+
+  .finish-options button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px #11112112;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.motion-ready .motion-reveal,
+  html.motion-ready .motion-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+@media (max-width: 650px) {
+  .sample-form { grid-template-columns: 1fr; }
+  .sample-form label { grid-column: 1; }
+}
