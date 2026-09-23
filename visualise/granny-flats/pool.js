@@ -10,7 +10,7 @@ const measurementId = 'G-NHGGBL110F';
 const url = new URL(location.href);
 let internal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) || location.protocol === 'file:';
 try { internal ||= localStorage.getItem('mono_analytics_opt_out') === '1'; } catch (_) {}
-const allowed = {utm_source:/^mono_outreach$/,utm_medium:/^email$/,utm_campaign:/^(2026q3_pool_99|2026q3_pool99_batch02)$/,utm_id:/^mo_pool99_(?:01|\d{3})$/,utm_content:/^(control|challenger|challenge)$/,outreach_country:/^au$/,outreach_industry:/^(pool_installer|pool_builder)$/,outreach_variant:/^(control|challenger|challenge)$/,outreach_batch_id:/^mo_2026w[0-9]{2}_[0-9]{2}$/};
+const allowed = {utm_source:/^mono_outreach$/,utm_medium:/^email$/,utm_campaign:/^(2026q3_granny_flat_99|2026q3_grannyflat99_batch02)$/,utm_id:/^mo_grannyflat99_(?:01|\d{3})$/,utm_content:/^(control|challenger|challenge)$/,outreach_country:/^au$/,outreach_industry:/^granny_flat_builder$/,outreach_variant:/^(control|challenger|challenge)$/,outreach_batch_id:/^mo_2026w[0-9]{2}_[0-9]{2}$/};
 const context = {};
 const clean = new URL(url.origin + url.pathname);
 for (const [key, pattern] of Object.entries(allowed)) { const value = url.searchParams.get(key); if (url.searchParams.getAll(key).length === 1 && value && pattern.test(value)) {context[key]=value;clean.searchParams.set(key,value);} }
@@ -153,7 +153,7 @@ if(!reducedMotion.matches){
 const processSection=document.querySelector('#process');
 if(processSection){
  processSection.querySelector('.eyebrow').textContent='A simple first step.';
- processSection.querySelector('h2').innerHTML='Show us the backyard.<br>We’ll show you the possibility.';
+ processSection.querySelector('h2').innerHTML='Show us the site.<br>We’ll show you the possibility.';
  const steps=[...processSection.querySelectorAll('.steps article')];
  const stepCopy=[
   ['Request your free image.','Leave your name and email. There’s no payment required for your first sample image.'],
@@ -257,7 +257,7 @@ if(finishComparison){
  }
  finishStage.setAttribute('role','slider');
  finishStage.setAttribute('tabindex','0');
- finishStage.setAttribute('aria-label','Swipe to compare light, warm and dark pool finishes');
+ finishStage.setAttribute('aria-label','Swipe to compare light, warm and dark granny flat exterior finishes');
  finishStage.setAttribute('aria-valuemin','0');
  finishStage.setAttribute('aria-valuemax','100');
  finishStage.addEventListener('pointerdown',event=>{event.preventDefault();dragging=true;finishStage.setPointerCapture(event.pointerId);setFromPointer(event);});
