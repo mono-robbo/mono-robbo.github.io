@@ -103,12 +103,13 @@ let filmProgress=new Set();
 let activeFilm='';
 let filmRequestedAt=0;
 document.querySelectorAll('[data-film]').forEach(button=>button.addEventListener('click',()=>{
- if(!['plunge','family','suburban'].includes(button.dataset.film))return;
+ const filmFiles={studio:'example-studio-8s.mp4','one-bedroom':'example-one-bedroom-8s.mp4','two-bedroom':'example-two-bedroom-8s.mp4'};
+ if(!filmFiles[button.dataset.film])return;
  filmOpener=button;activeFilm=button.dataset.film;filmProgress=new Set();
- filmDialog.querySelector('#film-title').textContent=button.querySelector('strong').textContent+' · 30 seconds';
+ filmDialog.querySelector('#film-title').textContent=button.querySelector('strong').textContent+' · concept film';
  filmDialog.querySelector('.film-error').hidden=true;
  filmPlayer.poster=button.querySelector('img').src;
- filmPlayer.src='./assets/'+activeFilm+'-film-30s.mp4';
+ filmPlayer.src='./assets/'+filmFiles[activeFilm];
  filmDialog.showModal();document.body.style.overflow='hidden';
  track('pool_video_open',{film_id:activeFilm});
  filmRequestedAt=performance.now();track('pool_video_request',{film_id:activeFilm,...mediaState(filmPlayer)});
