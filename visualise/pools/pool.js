@@ -125,7 +125,7 @@ function notice(title,copy){document.querySelector('#notice-title').textContent=
 document.querySelector('.close').addEventListener('click',()=>dialog.close());
 dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
 const sampleButtons=[...document.querySelectorAll('[data-checkout]')];
-sampleButtons.forEach(button=>{button.textContent='Request a free sample ↗';});
+sampleButtons.forEach(button=>{button.textContent='Visualise your project free ↗';});
 const packagePrice=document.querySelector('#package .price');
 if(packagePrice){
  packagePrice.innerHTML='<s class="price-was">A$199</s> <strong class="price-current">A$99</strong><span>including GST · introductory price</span>';
@@ -155,9 +155,9 @@ if(processSection){
  processSection.querySelector('h2').innerHTML='Show us the backyard.<br>We’ll show you the possibility.';
  const steps=[...processSection.querySelectorAll('.steps article')];
  const stepCopy=[
-  ['Request your free image.','Leave your name and email. There’s no payment required for your first sample image.'],
-  ['Email Robin your photos.','Attach clear backyard photos and add a few lines about the pool you’re proposing. Plans and finish references are welcome if you have them.'],
-  ['See the idea take shape.','We’ll review your brief, get in touch if anything essential is missing, and create your free sample image.']
+  ['Start your free concept.','Add your details. There’s no payment required for your first concept image.'],
+  ['Upload your site and pool brief.','Choose a hero photo, add the proposed pool details and attach a plan or reference image.'],
+  ['See the idea take shape.','We’ll review your brief, get in touch if anything essential is missing, and create your free concept image.']
  ];
  steps.forEach((step,index)=>{step.querySelector('h3').textContent=stepCopy[index][0];step.querySelector('p').textContent=stepCopy[index][1];});
 }
@@ -166,7 +166,7 @@ if(packageFine)packageFine.innerHTML='Start with a free sample image.<br>Continu
 const finalFine=document.querySelector('.final .fine');
 if(finalFine)finalFine.textContent='No payment is required for your first sample image.';
 const mobileOffer=document.querySelector('.mobile-bar span');
-if(mobileOffer)mobileOffer.innerHTML='<b>First image free</b> / send us your photos';
+if(mobileOffer)mobileOffer.innerHTML='<b>First concept free</b> / no card required';
 function openSampleForm(placement){
  const title=document.querySelector('#notice-title');
  const copy=document.querySelector('#notice-copy');
@@ -204,7 +204,7 @@ async function sendSampleRequest(request,button){
   track('pool_sample_request_error',{placement:request.placement});
  }
 }
-sampleButtons.forEach(button=>button.addEventListener('click',()=>openSampleForm(button.dataset.checkout)));
+sampleButtons.forEach(button=>button.addEventListener('click',()=>{track('pool_sample_form_open',{placement:button.dataset.checkout});const target=new URL('/visualise/pools/intake.html',location.origin);for(const [key,value] of Object.entries(context))target.searchParams.set(key,value);location.assign(target.href);}));
 document.querySelectorAll('[data-cta]').forEach(a=>a.addEventListener('click',()=>track('pool_offer_navigation',{placement:a.dataset.cta})));
 document.querySelectorAll('[data-email]').forEach(a=>a.addEventListener('click',()=>track('pool_email_click',{placement:a.dataset.email})));
 document.querySelectorAll('details').forEach((item,index)=>item.addEventListener('toggle',()=>{if(item.open)track('pool_faq_open',{faq_id:'faq_'+(index+1)});}));
