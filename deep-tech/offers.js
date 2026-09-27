@@ -4,8 +4,8 @@ export const terms = Object.freeze({ discount: 0.10, usageDays: 90, currency: 'A
 
 export const stages = [
   { id: 'credibility', number: '01', title: 'Build credibility.', short: 'Build credibility',
-    promise: 'Let people see the team, the work and the ambition behind the science.',
-    description: 'The foundations for a company that is ready to introduce itself. Real photography and clear language, ready to use across your website, introductions and press opportunities.',
+    promise: '',
+    description: 'Let people see the team, the work and the ambition behind the science.',
     packageName: 'Credibility package', exampleTitle: 'Real people. Real work.',
     exampleDescription: 'A collection of portraits, collaboration, lab and technology photography.',
     exampleLabels: ['Headshots', 'Team at work', 'Lab & technology'], example: null,
