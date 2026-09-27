@@ -1,0 +1,9 @@
+{
+  "name": "mono-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node tools/preview.cjs",
+    "test:deep-tech": "node --test deep-tech/tests/selection.test.mjs"
+  }
+}
