@@ -87,3 +87,6 @@ dialog{color:var(--ink);border:0;padding:0;background:var(--paper);box-shadow:0 
 @media(max-width:850px){.credentials-intro{grid-template-columns:1fr;gap:25px}.credentials-copy{max-width:650px}}
 @media(max-width:600px){.credentials-section{padding:68px 0}.credentials-intro h2{font-size:2.8rem}.credentials-clients{margin-top:36px}.credentials-client-heading{align-items:start}.credentials-client-heading>.eyebrow{font-size:.68rem}.client-ticker-group{gap:25px;padding-right:25px}.client-logo{flex-basis:125px;width:125px}.client-logo img{max-width:125px}}
 @media(prefers-reduced-motion:reduce){.client-ticker-track{animation:none;transform:none;width:auto}.client-ticker{mask-image:none}.client-ticker-group{flex-wrap:wrap;justify-content:flex-start;gap:18px;padding:0}.client-ticker-group:last-child{display:none}.ticker-toggle{display:none}}
+
+/* HOW uses the dark offer palette with a subtle charcoal section background. */
+.offer-section.technical{background:#18181c}
