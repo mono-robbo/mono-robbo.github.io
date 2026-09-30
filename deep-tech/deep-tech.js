@@ -74,3 +74,11 @@ itemDialog.addEventListener('close', () => {
   document.body.classList.remove('modal-open');
   returnFocus?.focus();
 });
+
+const tickerToggle = document.querySelector('#client-ticker-toggle');
+tickerToggle?.addEventListener('click', () => {
+  const paused = tickerToggle.closest('.credentials-clients').classList.toggle('is-paused');
+  tickerToggle.setAttribute('aria-pressed', String(paused));
+  tickerToggle.setAttribute('aria-label', paused ? 'Resume logo animation' : 'Pause logo animation');
+  tickerToggle.innerHTML = `${paused ? 'Resume logos' : 'Pause logos'} <span aria-hidden="true">${paused ? '▷' : 'Ⅱ'}</span>`;
+});
