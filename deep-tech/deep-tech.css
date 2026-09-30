@@ -88,5 +88,12 @@ dialog{color:var(--ink);border:0;padding:0;background:var(--paper);box-shadow:0 
 @media(max-width:600px){.credentials-section{padding:68px 0}.credentials-intro h2{font-size:2.8rem}.credentials-clients{margin-top:36px}.credentials-client-heading{align-items:start}.credentials-client-heading>.eyebrow{font-size:.68rem}.client-ticker-group{gap:25px;padding-right:25px}.client-logo{flex-basis:125px;width:125px}.client-logo img{max-width:125px}}
 @media(prefers-reduced-motion:reduce){.client-ticker-track{animation:none;transform:none;width:auto}.client-ticker{mask-image:none}.client-ticker-group{flex-wrap:wrap;justify-content:flex-start;gap:18px;padding:0}.client-ticker-group:last-child{display:none}.ticker-toggle{display:none}}
 
-/* HOW uses the dark offer palette with a subtle charcoal section background. */
-.offer-section.technical{background:#18181c}
+/* HOW uses a muted light grey canvas with dark text. */
+.offer-section.technical{background:#d8d8dc;color:var(--ink);--muted:#53535b;--line:#b5b5bd}
+.technical .section-heading .eyebrow,.technical .element-heading,.technical .input-note .eyebrow{color:#4848a5}
+.technical .stage-number{color:#4848a5;background:#cfcfd7;border-color:#b5b5c5}
+.technical .item-format,.technical .item-number,.technical .source-caption{color:#5b5b65}
+.technical .details-button{color:#41419d}
+.technical .input-note{background:#ceced5;border-color:#7575be}
+.technical .source-panel{color:#fff}
+.technical .package-card{color:#fff;--muted:#c1c1ca;--line:#48484e}
