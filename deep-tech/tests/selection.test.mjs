@@ -21,10 +21,10 @@ test('two foundation packs have distinct core elements and optional extensions',
   assert.ok(containers.every(container => container.deliverables.length && container.input && container.process && container.handoff));
 });
 
-test('WHO pack starts with three item prices and a 15% discount', () => {
-  assert.deepEqual(packageQuote(stages[0]), { subtotal: 275000, saving: 41250, total: 233750 });
+test('WHO pack starts with three item prices and a 10% discount', () => {
+  assert.deepEqual(packageQuote(stages[0]), { subtotal: 275000, saving: 27500, total: 247500 });
   const catalog = { ...itemById, 'photo-suite': { ...itemById['photo-suite'], priceCents: 65000 } };
-  assert.deepEqual(packageQuote(stages[0], catalog), { subtotal: 290000, saving: 43500, total: 246500 });
+  assert.deepEqual(packageQuote(stages[0], catalog), { subtotal: 290000, saving: 29000, total: 261000 });
   assert.equal(packageQuote(stages[1]), null);
 });
 

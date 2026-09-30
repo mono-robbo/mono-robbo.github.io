@@ -1,5 +1,5 @@
 // Prices are integer AUD cents. A null price needs a scoped quote.
-export const terms = Object.freeze({ discount: 0.15, usageDays: 90, currency: 'AUD' });
+export const terms = Object.freeze({ discount: 0.10, usageDays: 90, currency: 'AUD' });
 
 // Fictional company used only to demonstrate the Profile Build deliverable.
 export const fictionalCompany = Object.freeze({
@@ -102,7 +102,7 @@ export const containers = [
     useful: 'An investor, partner or customer meeting needs a story the speaker can lead and the audience can follow.',
     deliverables: ['Audience-specific structure', 'Designed editable slides', 'Relevant evidence and approved visuals', 'Presenter notes for key explanations'],
     input: 'The audience, decision sought, existing material and approved source elements.', process: 'Structure → content review → design → rehearsal feedback → finalise.', handoff: 'Editable deck and PDF. Slide count and new visual production are scoped before work begins.' },
-  { id: 'landing-page', title: 'Landing page', moment: 'Find and understand you', description: 'A current, simple home for the company story, technology and next step.',
+  { id: 'landing-page', title: 'Landing page', moment: 'Online', description: 'A current, simple home for the company story, technology and next step.',
     useful: 'Someone looks up the company and needs a credible, current explanation.',
     deliverables: ['One responsive page', 'Company and technology sections from approved sources', 'An agreed contact action', 'Source repository and update guide'],
     input: 'Approved words, imagery and any domain or hosting requirements.', process: 'Outline → design and build → desktop/mobile review → approved launch.', handoff: 'Editable content and source code. Hosting and ongoing support are agreed separately.' },
