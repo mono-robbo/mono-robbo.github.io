@@ -1,64 +1,47 @@
-# MONO deep tech offer page — review branch
+# MONO deep-tech offer page
 
-Target route: `/deep-tech/` on the existing static MONO website.
+Public route: `https://monohq.co/deep-tech/` on the existing static MONO website.
 
-**Review only. Do not merge into the publishing branch or deploy without Robin's explicit approval.** The page is `noindex,nofollow`; no home-page navigation, sitemap, analytics, payment flow, email endpoint or deployment configuration has been changed. The enquiry flow previews and copies text locally. It does not send anything. GitHub source is public, as is the existing repository; this branch is not a private staging site.
+The page displays offers, indicative prices and quote labels. It has no cart, enquiry submission or payment flow; the closing action opens an email to MONO. The GitHub repository is public.
 
 ## Preview
 
-From the repository root, run `npm run dev` (no dependencies to install), or use any static web server, for example:
+From the repository root, run `npm run dev` (no package installation required) and open `http://localhost:4173/deep-tech/`. The page uses browser ES modules and must be served over HTTP.
 
-```sh
-python3 -m http.server 8000
-```
+## Offer architecture
 
-Then open `http://localhost:8000/deep-tech/`. The page uses browser ES modules, so serve it over HTTP rather than opening it as a `file://` URL. No package installation or production build is required.
+The page has two foundation packs and a PRESENT section for finished formats:
 
-## Content and commercial rules
+1. **WHO Pack:** Photography, Profile Build and Micro Design System. A series of short workshops clarifies the audience, technology and why it matters, then builds short and long profiles. The team brings working answers about its technology, industries, potential customers, route to market, useful shortcuts and funding aims. The profile distinguishes approved facts from current hypotheses.
+2. **HOW Pack:** Static Visuals, Animated Visualisation and Detailed Explainers. These make the science, technology and applications understandable through diagrams, motion and a deeper explanation with copy, visuals and selected available footage. New filming belongs in PRESENT.
+3. **PRESENT:** send-aheads, scrollers, leave-behinds, pitch decks, landing pages, press kits, explainer films and interviews turn the reusable source elements into polished, audience-ready pieces. Each format is scoped separately. Updating source elements supports a new hypothesis, sector or funder mission without rebuilding everything.
 
-- `offers.js`: all item details, stage/package membership, examples and future prices.
-- `index.html`: page structure, introduction, ongoing workspace explanation and enquiry fields.
-- `deep-tech.css`: page-specific MONO styling, responsive layouts and dialogs.
-- `deep-tech.js`: item details, package builder and enquiry preview.
+Both foundation packs develop through short, incremental conversations and reviews alongside production, at the pace of the company. There is no standalone long workshop offer.
 
-Three complete packages include **every item listed in their stage**. The technology stage lists static visual explanation and the 15-second motion explainer as separate purchasable modules, alongside visualisation and interview. The basic logo and landing page are standalone additions outside package discounts.
+The core elements of each foundation pack can also be considered individually. The WHO Pack starts with Photography for two people ($500), Profile Build ($750) and Micro Design System ($1,500). Each additional photography subject adds $150. The WHO Pack receives 15% off the combined individual prices, starting at $2,337.50 for two people. HOW includes Static Visuals ($750), Animated Visualisation (from $500, dependent on complexity) and Detailed Explainers (custom quote); the complete HOW Pack is custom quoted. Pack work can be scheduled to build the assets within 90 days, subject to agreed scope and scheduling. This period does not limit subsequent use of delivered assets. The offer page is not a shopping site.
 
-Complete packages receive 10% off the combined individual item prices. Items can be used separately within 90 days **from purchase**. Selecting a package removes duplicate individual selections. Removing one included item converts the remaining package items to individual selections and removes the package discount. Selecting every item individually offers an explicit upgrade to the complete package.
+## Content and pricing
 
-All `priceCents` fields are currently `null`; the UI reserves the price positions with an em dash. No prices, including historical headshot pricing, are published. To add prices, set integer AUD cents on items. The package total is calculated from its members; the discount is rounded once to the nearest cent. A package containing any unpriced item remains unpriced. A mixed selection shows only a labelled priced subtotal plus a pricing-to-be-confirmed notice. Confirm GST display/treatment before entering or publishing amounts.
+- `offers.js`: pack structure, item details, containers and future prices.
+- `index.html`: page structure and static copy.
+- `deep-tech.js`: offer cards, details and illustrative content directions.
+- `visuals.js`: content-neutral SVG studies and the selected Higgsfield-generated review images for WHO and HOW.
+- `deep-tech.css`: styling and responsive layouts.
 
-Deliverables are proposed product definitions for review. Final quantities, production complexity, revisions, turnaround, shoot logistics, licensing and account/hosting responsibilities need to be costed and agreed before they become fixed offers. No precise delivery promise or automatic ongoing monitoring is included.
+Item base prices are integer AUD cents. A `null` price means the item needs a custom quote or remains to be priced. The WHO Pack total is calculated from its three base prices, with the 15% discount rounded once to the nearest cent. Additional photography subjects change the subtotal before the discount. The HOW Pack remains custom quoted even if its individually priced items have values. PRESENT formats remain unpriced. Confirm scope, GST treatment, timing, licensing, travel and hosting before publishing amounts.
 
-## Adding content examples
-
-Every item and stage has `example: null`. The intentional placeholders say “Example to be added”. Supply cleared examples before public launch. Use a local asset path or HTTPS URL and this shape:
-
-```js
-example: {
-  type: 'image', // image, video, or link (interactive external preview)
-  src: './assets/example.webp',
-  alt: 'Describe the actual example',
-  credit: 'Client / project, used with permission',
-  // poster: './assets/example-poster.webp' // optional for video
-}
-```
-
-Stage examples appear in the gallery; item examples appear in the detail dialog. A `link` opens a real preview in a new tab. Videos use native controls with no autoplay. The example areas do not claim that a placeholder is completed client work.
-
-Add `priceCents` and `example` directly inside the relevant item object to override its empty defaults. Keep each item's unique ID stable.
+The graphic panels in the two pack sections are **illustrative examples**, not completed client work. Profile Build shows Morrowcell Hydrogen, a fictional green hydrogen company; its short and long sample profiles are in the item details. Static Visuals uses a labelled SVG process; Animated Visualisation is an interactive CSS 3D study; Detailed Explainers has a play cue for an eventual film example. The selected Higgsfield images for Photography, Micro Design System and Detailed Explainers load from its media CDN, with editable SVG fallbacks. Replace generated images and fictional copy when approved client material is available. The page makes no promise of continuous monitoring or grant success. Narrative and visual source files should be editable where practical; container-specific hosting and ongoing support are separate.
 
 ## Verification
 
 ```sh
-node --test deep-tech/tests/selection.test.mjs
+npm run test:deep-tech
 ```
 
-The regression tests cover package membership, duplicate prevention, splitting packages into individual items, 10% calculation and unpriced totals. Manually/browser-test item dialogs, keyboard dismissal and focus restoration, desktop/mobile overflow, package removal, milestone entry, and enquiry preview/copy.
+The tests cover pack membership and pricing. Manually check the item dialog, focus restoration, desktop/mobile layouts and price labels.
 
-## Before publication
+## Ongoing checks
 
-1. Agree scopes and prices, GST display and 90-day scheduling terms.
-2. Replace intentional example placeholders with cleared content.
-3. Connect and verify the agreed enquiry destination; the current preview does not send.
-4. Remove review-only labels and `noindex,nofollow`, add canonical metadata and navigation/sitemap entries as approved.
-5. Obtain explicit approval before merging/deploying.
+1. Confirm scopes, GST treatment, timing, licensing, travel and hosting in each quote.
+2. Keep illustrative concepts and the fictional company clearly labelled until replaced with approved work.
+3. Keep the public email destination current.
