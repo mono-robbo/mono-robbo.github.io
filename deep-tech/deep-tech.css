@@ -97,3 +97,32 @@ dialog{color:var(--ink);border:0;padding:0;background:var(--paper);box-shadow:0 
 .technical .input-note{background:#ceced5;border-color:#7575be}
 .technical .source-panel{color:#fff}
 .technical .package-card{color:#fff;--muted:#c1c1ca;--line:#48484e}
+
+/* Shared motion: compositor-friendly entrances, fluid controls and a reading line. */
+.scroll-progress{position:fixed;inset:0 0 auto;height:2px;background:#9090ff;transform:scaleX(0);transform-origin:left;z-index:100;pointer-events:none}
+.ticker-offscreen .client-ticker-track,.page-idle .client-ticker-track{animation-play-state:paused}
+@media(prefers-reduced-motion:no-preference){
+  .scroll-progress{transition:transform .12s linear}
+  .button{translate:var(--magnet-x,0px) var(--magnet-y,0px);transition:background .3s,color .3s,transform .6s cubic-bezier(.22,1,.36,1),translate .45s cubic-bezier(.22,1,.36,1)}
+  .button span,.text-link span,.details-button span,.index-arrow{display:inline-block;transition:transform .6s cubic-bezier(.22,1,.36,1),color .3s}
+  .hero-index>a{transition:padding .55s cubic-bezier(.22,1,.36,1),border-color .4s}
+  .source-panel,.container-card{transition:translate .65s cubic-bezier(.22,1,.36,1),border-color .45s,box-shadow .65s}
+  .item-card,.workspace-list article{transition:border-color .45s}
+  .source-art img,.source-art svg{transition:transform 1s cubic-bezier(.22,1,.36,1)}
+  .client-logo img{transition:opacity .4s}
+  dialog[open]{animation:dialog-arrive .35s cubic-bezier(.22,1,.36,1)}
+  dialog[open]::backdrop{animation:backdrop-arrive .3s ease}
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .source-panel:hover,.container-card:hover{translate:0 -5px;border-color:#77778d;box-shadow:0 14px 34px #0002}
+  .source-panel:hover .source-art img,.source-panel:hover .source-art svg{transform:scale(1.025)}
+  .item-card:hover,.workspace-list article:hover{border-color:#77778d}
+  .hero-index>a:hover .index-arrow,.text-link:hover span,.details-button:hover span{transform:translate(3px,-3px)}
+  .button-blue:hover span{transform:translateY(3px)}
+  .button-white:hover span{transform:translate(3px,-3px)}
+  .client-logo:hover img{opacity:1}
+}
+@keyframes dialog-arrive{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes backdrop-arrive{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.scroll-progress{display:none}}
+@media print{.scroll-progress{display:none}}

@@ -82,3 +82,6 @@ tickerToggle?.addEventListener('click', () => {
   tickerToggle.setAttribute('aria-label', paused ? 'Resume logo animation' : 'Pause logo animation');
   tickerToggle.innerHTML = `${paused ? 'Resume logos' : 'Pause logos'} <span aria-hidden="true">${paused ? '▷' : 'Ⅱ'}</span>`;
 });
+
+// Motion is optional, so an unavailable animation module cannot block the offers.
+import('./motion.js').then(({ initMotion }) => initMotion()).catch(() => {});
