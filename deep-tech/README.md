@@ -18,7 +18,7 @@ The page has two foundation packs and a PRESENT section for finished formats:
 
 Both foundation packs develop through short, incremental conversations and reviews alongside production, at the pace of the company. There is no standalone long workshop offer.
 
-The core elements of each foundation pack can also be considered individually. The WHO Pack starts with Photography for two people ($500) and Micro Design System ($1,500). Each additional photography subject adds $150. The WHO Pack receives the existing 10% discount off the combined individual prices, starting at $1,800 for two people. HOW includes Static Visuals ($750), Animated Visualisation (from $500, dependent on complexity) and Detailed Explainers (custom quote); the complete HOW Pack is custom quoted. Pack work can be scheduled to build the assets within 90 days, subject to agreed scope and scheduling. This period does not limit subsequent use of delivered assets. The offer page is not a shopping site.
+The core elements of each foundation pack can also be considered individually. The WHO Pack starts with Photography for two people ($500) and Micro Design System ($1,500). Each additional photography subject adds $150. The WHO Pack receives the existing 10% discount off the combined individual prices, starting at $1,800 for two people. HOW includes Static Visuals ($750), Animated Visualisation (from $950, dependent on complexity) and Detailed Explainers (custom quote); the complete HOW Pack is custom quoted. Pack work can be scheduled to build the assets within 90 days, subject to agreed scope and scheduling. This period does not limit subsequent use of delivered assets. The offer page is not a shopping site.
 
 ## Content and pricing
 

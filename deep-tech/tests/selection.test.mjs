@@ -13,7 +13,7 @@ test('two foundation packs have distinct core elements and optional extensions',
     'photo-suite': 50000,
     'micro-design': 150000,
     'visual-explanation': 75000,
-    'technology-visualisation': 50000,
+    'technology-visualisation': 95000,
     'detailed-explainer': null
   });
   assert.ok(containers.every(container => container.priceCents === null));

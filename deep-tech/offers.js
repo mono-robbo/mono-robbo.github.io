@@ -51,7 +51,7 @@ export const items = [
     input: 'Technical references, current evidence, likely applications and someone who can review accuracy.',
     process: 'Short technical conversations → sketch the visual logic → review accuracy → design in the micro design language → refine.',
     handoff: 'Layered editable sources, exports and notes on claims and assumptions.' },
-  { id: 'technology-visualisation', title: 'Animated Visualisation', format: 'Animation & motion', priceCents: 50000, pricePrefix: 'From', priceNote: 'Final price depends on complexity.',
+  { id: 'technology-visualisation', title: 'Animated Visualisation', format: 'Animation & motion', priceCents: 95000, pricePrefix: 'From', priceNote: 'Final price depends on complexity.',
     description: 'Animation that shows how the technology works when a still image cannot explain it clearly.',
     useful: 'The subject is microscopic, internal, unfinished or easier to understand as a sequence.',
     deliverables: ['An agreed visual direction and storyboard', 'A technically reviewed animation', 'Agreed text and sound treatment', 'A finished sequence in scoped formats', 'Notes on illustrative assumptions'],
