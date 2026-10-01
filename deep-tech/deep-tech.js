@@ -1,4 +1,4 @@
-import { stages, containers, itemById, terms, packageQuote } from './offers.js';
+import { stages, containers, itemById, terms, packageQuote } from './offers.js?v=20261001-950';
 import { stageVisual, generatedVisual } from './visuals.js';
 
 const money = value => new Intl.NumberFormat('en-AU', { style: 'currency', currency: terms.currency, maximumFractionDigits: value % 100 === 0 ? 0 : 2 }).format(value / 100);
