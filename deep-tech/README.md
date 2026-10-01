@@ -12,13 +12,13 @@ From the repository root, run `npm run dev` (no package installation required) a
 
 The page has two foundation packs and a PRESENT section for finished formats:
 
-1. **WHO Pack:** Photography, Profile Build and Micro Design System. A series of short workshops clarifies the audience, technology and why it matters, then builds short and long profiles. The team brings working answers about its technology, industries, potential customers, route to market, useful shortcuts and funding aims. The profile distinguishes approved facts from current hypotheses.
+1. **WHO Pack:** Photography and Micro Design System. These build visual foundations around the existing company story. The team brings its company name and story, people and workplace, visual references, identity constraints and the materials it needs next.
 2. **HOW Pack:** Static Visuals, Animated Visualisation and Detailed Explainers. These make the science, technology and applications understandable through diagrams, motion and a deeper explanation with copy, visuals and selected available footage. New filming belongs in PRESENT.
 3. **PRESENT:** send-aheads, scrollers, leave-behinds, pitch decks, landing pages, press kits, explainer films and interviews turn the reusable source elements into polished, audience-ready pieces. Each format is scoped separately. Updating source elements supports a new hypothesis, sector or funder mission without rebuilding everything.
 
 Both foundation packs develop through short, incremental conversations and reviews alongside production, at the pace of the company. There is no standalone long workshop offer.
 
-The core elements of each foundation pack can also be considered individually. The WHO Pack starts with Photography for two people ($500), Profile Build ($750) and Micro Design System ($1,500). Each additional photography subject adds $150. The WHO Pack receives 15% off the combined individual prices, starting at $2,337.50 for two people. HOW includes Static Visuals ($750), Animated Visualisation (from $500, dependent on complexity) and Detailed Explainers (custom quote); the complete HOW Pack is custom quoted. Pack work can be scheduled to build the assets within 90 days, subject to agreed scope and scheduling. This period does not limit subsequent use of delivered assets. The offer page is not a shopping site.
+The core elements of each foundation pack can also be considered individually. The WHO Pack starts with Photography for two people ($500) and Micro Design System ($1,500). Each additional photography subject adds $150. The WHO Pack receives the existing 10% discount off the combined individual prices, starting at $1,800 for two people. HOW includes Static Visuals ($750), Animated Visualisation (from $500, dependent on complexity) and Detailed Explainers (custom quote); the complete HOW Pack is custom quoted. Pack work can be scheduled to build the assets within 90 days, subject to agreed scope and scheduling. This period does not limit subsequent use of delivered assets. The offer page is not a shopping site.
 
 ## Content and pricing
 
@@ -28,9 +28,9 @@ The core elements of each foundation pack can also be considered individually. T
 - `visuals.js`: content-neutral SVG studies and the selected Higgsfield-generated review images for WHO and HOW.
 - `deep-tech.css`: styling and responsive layouts.
 
-Item base prices are integer AUD cents. A `null` price means the item needs a custom quote or remains to be priced. The WHO Pack total is calculated from its three base prices, with the 15% discount rounded once to the nearest cent. Additional photography subjects change the subtotal before the discount. The HOW Pack remains custom quoted even if its individually priced items have values. PRESENT formats remain unpriced. Confirm scope, GST treatment, timing, licensing, travel and hosting before publishing amounts.
+Item base prices are integer AUD cents. A `null` price means the item needs a custom quote or remains to be priced. The WHO Pack total is calculated from its two base prices, with the 10% discount rounded once to the nearest cent. Additional photography subjects change the subtotal before the discount. The HOW Pack remains custom quoted even if its individually priced items have values. PRESENT formats remain unpriced. Confirm scope, GST treatment, timing, licensing, travel and hosting before publishing amounts.
 
-The graphic panels in the two pack sections are **illustrative examples**, not completed client work. Profile Build shows Morrowcell Hydrogen, a fictional green hydrogen company; its short and long sample profiles are in the item details. Static Visuals uses a labelled SVG process; Animated Visualisation is an interactive CSS 3D study; Detailed Explainers has a play cue for an eventual film example. The selected Higgsfield images for Photography, Micro Design System and Detailed Explainers load from its media CDN, with editable SVG fallbacks. Replace generated images and fictional copy when approved client material is available. The page makes no promise of continuous monitoring or grant success. Narrative and visual source files should be editable where practical; container-specific hosting and ongoing support are separate.
+The graphic panels in the two pack sections are **illustrative examples**, not completed client work. Static Visuals uses a labelled SVG process; Animated Visualisation is an interactive CSS 3D study; Detailed Explainers has a play cue for an eventual film example. The selected Higgsfield images for Photography, Micro Design System and Detailed Explainers load from its media CDN, with editable SVG fallbacks. Replace generated images when approved client material is available. The page makes no promise of continuous monitoring or grant success. Narrative and visual source files should be editable where practical; container-specific hosting and ongoing support are separate.
 
 ## Verification
 
@@ -43,5 +43,5 @@ The tests cover pack membership and pricing. Manually check the item dialog, foc
 ## Ongoing checks
 
 1. Confirm scopes, GST treatment, timing, licensing, travel and hosting in each quote.
-2. Keep illustrative concepts and the fictional company clearly labelled until replaced with approved work.
+2. Keep illustrative concepts clearly labelled until replaced with approved work.
 3. Keep the public email destination current.

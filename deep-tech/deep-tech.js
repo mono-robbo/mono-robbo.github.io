@@ -1,4 +1,4 @@
-import { stages, containers, itemById, terms, packageQuote, fictionalCompany } from './offers.js';
+import { stages, containers, itemById, terms, packageQuote } from './offers.js';
 import { stageVisual, generatedVisual } from './visuals.js';
 
 const money = value => new Intl.NumberFormat('en-AU', { style: 'currency', currency: terms.currency, maximumFractionDigits: value % 100 === 0 ? 0 : 2 }).format(value / 100);
@@ -13,7 +13,6 @@ function itemCard(item, index) {
   return `<article class="item-card" id="item-${item.id}"><span class="item-number">${String(index + 1).padStart(2, '0')}</span><div><div class="item-format">${escape(item.format)}</div><h3>${escape(item.title)}</h3><p>${escape(item.description)}</p><button class="details-button" data-detail="${item.id}" aria-label="See what is included in ${escape(item.title)}">What’s included <span aria-hidden="true">↗</span></button></div><div class="item-buy"><div class="price-slot"><small>Item price</small><strong>${escape(itemPrice(item))}</strong>${priceNote(item)}</div></div></article>`;
 }
 function panelVisual(panel) {
-  if (panel.visual === 'profile') return `<div class="profile-sample" aria-label="Fictional green hydrogen company profile example"><span>FICTIONAL / ${escape(fictionalCompany.sector)}</span><h4>${escape(fictionalCompany.name)}</h4><p>${escape(fictionalCompany.card)}</p><span>SHORT → LONG PROFILE</span></div>`;
   if (panel.visual === 'motion') return `<div class="vr-demo" aria-label="Interactive 3D visualisation study"><div class="vr-viewport"><span class="vr-orbit" aria-hidden="true"></span><div class="vr-object" aria-hidden="true"><i class="vr-face front"></i><i class="vr-face back"></i><i class="vr-face right"></i><i class="vr-face left"></i><i class="vr-face top"></i><i class="vr-face bottom"></i><i class="vr-core"></i></div></div><div class="vr-controls"><span>ROTATE</span><input type="range" min="0" max="360" value="32" aria-label="Rotate the 3D object"><span>360°</span></div></div>`;
   const generated = panel.visual === 'staticVisual' ? '' : `<img src="${generatedVisual(panel.visual)}" alt="" loading="lazy" decoding="async" data-generated-image>`;
   const play = panel.visual === 'explainer' ? '<span class="preview-play" aria-hidden="true">▶</span>' : '';
@@ -24,7 +23,7 @@ function previewBoard(stage) {
 }
 function packageCard(stage) {
   const quote = packageQuote(stage);
-  const discountNote = quote ? `${Math.round(terms.discount * 100)}% off the three individual prices. Photography includes two people; +$150 each additional before discount.` : 'Scope and price are agreed for the detailed work.';
+  const discountNote = quote ? `${Math.round(terms.discount * 100)}% off the individual prices. Photography includes two people; +$150 each additional before discount.` : 'Scope and price are agreed for the detailed work.';
   return `<aside class="package-card" aria-label="${escape(stage.packageName)}"><p class="eyebrow">The foundation pack</p><h3>${escape(stage.packageName)}</h3><p>Reusable elements developed through a series of working sessions as your company evolves.</p><ul>${stage.coreIds.map(id => `<li>${escape(itemById[id].title)}</li>`).join('')}</ul><div class="package-price"><div class="total"><span>Pack price</span><strong>${escape(price(quote?.total, stage.packagePricePrefix, stage.packagePriceLabel || 'Custom quote'))}</strong></div><small>${escape(discountNote)}</small></div><div class="usage"><span class="usage-icon" aria-hidden="true">◷</span><div><b>Build the pack assets within 90 days.</b>Scope and scheduling are agreed before work begins.</div></div></aside>`;
 }
 function section(stage, index) {

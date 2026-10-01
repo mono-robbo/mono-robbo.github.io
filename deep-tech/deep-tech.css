@@ -23,6 +23,7 @@ dialog{color:var(--ink);border:0;padding:0;background:var(--paper);box-shadow:0 
 
 /* Illustrative studies for the foundation sections. */
 .source-board{grid-template-columns:repeat(3,minmax(0,1fr))}
+#who .source-board{grid-template-columns:repeat(2,minmax(0,1fr))}
 .source-panel{grid-template-rows:auto 8rem auto 1fr;gap:17px;min-height:0}
 .source-panel:after{display:none}
 .source-panel strong{min-height:0;align-self:start}
@@ -59,7 +60,7 @@ dialog{color:var(--ink);border:0;padding:0;background:var(--paper);box-shadow:0 
 .vr-controls input[type=range]::-webkit-slider-thumb{appearance:none;width:13px;height:13px;border:2px solid #f4f4f5;border-radius:50%;background:#8585ff}
 .vr-controls input[type=range]::-moz-range-thumb{width:10px;height:10px;border:2px solid #f4f4f5;border-radius:50%;background:#8585ff}
 .preview-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:#f2f2ee;color:#2525a4;font-size:1.25rem;padding-left:3px;box-shadow:0 0 0 5px #15151899;pointer-events:none}
-@media(max-width:850px){.source-board{grid-template-columns:1fr}.source-panel{grid-template-rows:auto auto auto auto}.source-art,.profile-sample,.vr-demo{max-width:480px}}
+@media(max-width:850px){.source-board,#who .source-board{grid-template-columns:1fr}.source-panel{grid-template-rows:auto auto auto auto}.source-art,.profile-sample,.vr-demo{max-width:480px}}
 @media(max-width:600px){.source-panel{grid-template-rows:auto auto auto auto}.source-art,.profile-sample,.vr-demo{max-width:360px}}
 
 /* Credentials and communications positioning */
@@ -126,3 +127,150 @@ dialog{color:var(--ink);border:0;padding:0;background:var(--paper);box-shadow:0 
 @keyframes backdrop-arrive{from{opacity:0}to{opacity:1}}
 @media(prefers-reduced-motion:reduce){.scroll-progress{display:none}}
 @media print{.scroll-progress{display:none}}
+
+/* More room for reading and a calmer rhythm between sections. */
+body{line-height:1.65}
+h2{line-height:1.08}
+.hero{padding-block:96px 112px;gap:clamp(48px,7vw,100px)}
+.hero h1{line-height:1.04;margin-block:40px}
+.hero-lead{line-height:1.55}
+.hero-actions{margin-top:40px}
+.hero-index>.eyebrow{padding-block:24px 12px}
+.hero-index>a{padding-block:32px}
+.hero-index small{line-height:1.6;margin-top:16px}
+.offer-section{padding-top:calc(48px + clamp(40px,5vw,68px));padding-bottom:calc(43px + clamp(40px,5vw,68px))}
+.containers-section{padding-block:90px}
+.section-heading{margin-bottom:54px;gap:62px}
+.section-heading .eyebrow{margin-bottom:25px}
+.section-heading>p{line-height:1.625;max-width:370px}
+.source-board{gap:18px}
+.source-panel{padding:28px;gap:20px}
+.source-panel strong{line-height:1.075}
+.source-panel small{line-height:1.575}
+.source-caption{line-height:1.55;margin-top:9px;margin-bottom:51px}
+.element-heading{margin-bottom:20px}
+.stage-layout{grid-template-columns:minmax(0,1fr) 328px;gap:41px}
+.item-card{padding-block:34px;gap:22px}
+.item-format{margin-bottom:11px}
+.item-card h3{line-height:1.165;margin-bottom:14px}
+.item-card p{line-height:1.6}
+.details-button{padding-top:16px;min-height:48px}
+.offer-section .details-button{padding-top:13px;min-height:44px}
+.price-slot{gap:6px}
+.price-note{line-height:1.5;margin-top:6px}
+.package-card{padding:30px}
+.package-card h3{line-height:1.1;margin-block:18px}
+.package-card>p{line-height:1.6}
+.package-card ul{margin-block:25px}
+.package-card li{margin-block:12px;gap:10px}
+.package-price{padding-block:20px;margin-block:22px;gap:12px}
+.package-price>small{line-height:1.575}
+.usage{margin-top:23px;gap:12px;line-height:1.6}
+.usage b{margin-bottom:4px}
+.input-note{margin-top:41px;padding:28px}
+.input-note p{margin-block:12px 16px}
+.input-note ul{gap:11px 26px;margin-block:0}
+.containers-section .section-heading{margin-bottom:44px;gap:60px}
+.containers-section .section-heading .eyebrow{margin-bottom:22px}
+.containers-section .section-heading>p{line-height:1.55;max-width:350px}
+.containers-intro{line-height:1.6;margin:-10px 0 32px}
+.container-grid{gap:16px}
+.container-card{padding:24px}
+.container-number{min-height:0;line-height:1.4}
+.container-card h3{line-height:1.1;min-height:2.2em;margin-block:24px 12px}
+.container-card p{line-height:1.55}
+.container-card .details-button{padding-top:9px;min-height:40px;margin-block:12px 16px}
+.container-price{padding-top:22px}
+.container-note{margin-top:20px;line-height:1.6}
+.credentials-section{padding-block:clamp(80px,10vw,144px)}
+.credentials-intro .eyebrow{margin-bottom:32px}
+.credentials-copy{line-height:1.8}
+.credentials-copy p+p{margin-top:28px}
+.credentials-clients{margin-top:64px;padding-top:32px}
+.credentials-client-heading{margin-bottom:32px}
+.client-logo{height:64px}
+.growing-section{padding-block:clamp(80px,10vw,144px);gap:88px}
+.growing-section .eyebrow{margin-bottom:32px}
+.section-copy{margin-block:32px;line-height:1.75}
+.workspace-list{column-gap:32px;row-gap:16px}
+.workspace-list article{padding-block:32px;gap:24px}
+.workspace-list h3{line-height:1.25;margin-bottom:16px}
+.workspace-list p{line-height:1.75}
+.closing{padding:96px 48px}
+.closing h2{line-height:1.08}
+.closing p:not(.eyebrow){margin-block:32px;line-height:1.7}
+.closing .button{margin-top:12px}
+.site-footer{padding-block:64px 80px}
+.dialog-header{padding:40px 36px 32px}
+.dialog-header h2{line-height:1.15}
+.dialog-header>p:last-child{margin-top:24px;line-height:1.7}
+.dialog-body{padding:36px}
+.detail-block{margin-bottom:32px}
+.detail-block h3{margin-bottom:14px}
+.detail-block p,.detail-block li{line-height:1.75}
+.detail-block li{margin-block:10px}
+.dialog-footer{padding:28px 36px}
+@media(max-width:1000px){.container-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:1000px){
+  .stage-layout{grid-template-columns:1fr;gap:32px}
+  .package-card{position:static}
+  .hero{gap:48px}
+  .growing-section{gap:48px}
+}
+@media(max-width:850px){
+  .hero{padding-block:56px 80px;gap:48px}
+  .hero-index{column-gap:24px;row-gap:28px}
+  .hero-index>a{padding-block:0 28px}
+  .section-heading,.containers-section .section-heading{gap:35px}
+  .source-panel{grid-template-rows:auto auto auto auto}
+  .source-caption{margin-bottom:43px}
+  .credentials-intro{gap:40px}
+  .growing-section{gap:48px}
+}
+@media(max-width:600px){
+  .hero{padding-block:40px 64px;gap:40px}
+  .hero h1{margin-block:32px}
+  .hero-lead{line-height:1.6}
+  .hero-actions{margin-top:32px}
+  .hero-index{column-gap:16px;row-gap:24px}
+  .hero-index>.eyebrow{padding-block:22px 4px}
+  .hero-index small{margin-top:14px}
+  .offer-section{padding-block:66px}
+  .containers-section{padding-block:58px}
+  .credentials-section{padding-block:76px}
+  .section-heading{margin-bottom:35px}
+  .section-heading .eyebrow{margin-bottom:21px}
+  .section-heading>p{margin-top:25px}
+  .source-board{gap:16px}
+  .source-panel{padding:22px;gap:20px}
+  .source-panel small{font-size:.78rem}
+  .source-caption{margin-top:10px;margin-bottom:36px}
+  .item-card{display:block;padding-block:28px}
+  .item-buy{align-items:flex-start;text-align:left;margin-top:18px}
+  .price-note{max-width:100%}
+  .package-card{padding:26px}
+  .package-card .usage{padding:0}
+  .input-note{padding:24px;margin-top:35px}
+  .container-grid{grid-template-columns:1fr}
+  .container-card{padding:24px}
+  .container-number,.container-card h3{min-height:0}
+  .container-card h3{margin-block:20px 12px}
+  .containers-section .section-heading{margin-bottom:30px}
+  .containers-section .section-heading .eyebrow{margin-bottom:18px}
+  .containers-section .section-heading>p{max-width:100%;margin-top:21px}
+  .containers-intro{margin:0 0 25px}
+  .credentials-intro{gap:36px}
+  .credentials-clients{margin-top:44px}
+  .growing-section{padding-block:76px;gap:44px}
+  .closing{padding:64px 24px}
+  .site-footer{padding-block:44px;gap:28px}
+  .dialog-header{padding:32px 24px 28px}
+  .dialog-body{padding:28px 24px}
+  .dialog-footer{padding:24px}
+}
+
+/* Keep the larger opening headline beside the stages. */
+.hero{align-items:start}
+.hero h1{font-size:clamp(5.5rem,10.5vw,9.5rem);margin:40px 0 48px}
+@media(max-width:850px){.hero h1{font-size:17vw}}
+@media(max-width:600px){.hero h1{font-size:clamp(3.5rem,18vw,6.75rem);margin:32px 0 36px}}

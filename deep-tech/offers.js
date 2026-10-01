@@ -1,27 +1,17 @@
 // Prices are integer AUD cents. A null price needs a scoped quote.
 export const terms = Object.freeze({ discount: 0.10, usageDays: 90, currency: 'AUD' });
 
-// Fictional company used only to demonstrate the Profile Build deliverable.
-export const fictionalCompany = Object.freeze({
-  name: 'Morrowcell Hydrogen',
-  sector: 'Green hydrogen',
-  card: 'Modular electrolysers designed to make renewable hydrogen near industrial demand.',
-  short: 'Morrowcell Hydrogen is developing modular electrolysers that use renewable electricity to produce hydrogen near industrial demand. The team is working with prospective partners to identify practical applications and validate the system design.',
-  long: 'Morrowcell Hydrogen is a fictional company developing modular water electrolysers for industrial sites with access to renewable electricity. The concept is to produce hydrogen close to the point of use, so prospective customers can assess it within the realities of their energy supply, operations and infrastructure. The team is exploring where locally produced hydrogen could serve as a fuel or industrial feedstock. Its next work is to validate the system design with technical partners and test the economics of specific applications. Those questions remain open; this profile describes a proposed direction rather than proven performance.'
-});
-
 export const stages = [
   {
     id: 'who', number: '01', title: 'WHO', short: 'Company identity',
     packageName: 'WHO Pack', packagePricePrefix: 'From',
-    description: 'Who is behind the science, the technology, the big ideas? Give the company photos, design and a strong narrative to earn the next conversation.',
-    coreIds: ['photo-suite', 'words-pack', 'micro-design'],
+    description: 'Who is behind the science, the technology, the big ideas? Give the company photos and a simple design system to earn the next conversation.',
+    coreIds: ['photo-suite', 'micro-design'],
     extensionIds: [],
-    inputs: ['What your technology does today', 'Industries and customers you are exploring', 'Your route to market and useful shortcuts', 'Grants, funding and near-term milestones'],
+    inputs: ['Your company name and existing company story', 'The people and workplace you want to show', 'Visual references and any existing identity constraints', 'The decks, documents and pages you need next'],
     preview: [
       { number: '01', label: 'People', headline: 'Photography', visual: 'people', detail: 'The team behind the work: headshots, group portraits and the team working together.' },
-      { number: '02', label: 'Narrative', headline: 'Profile\nBuild', visual: 'profile', detail: 'Short and long company write-ups that keep early materials consistent.' },
-      { number: '03', label: 'Design', headline: 'Micro\nDesign\nSystem', visual: 'design', detail: 'A micro logo, typography, colours and a simple design language for early decks and materials.' }
+      { number: '02', label: 'Design', headline: 'Micro\nDesign\nSystem', visual: 'design', detail: 'A micro logo, typography, colours and a simple design language for early decks and materials.' }
     ]
   },
   {
@@ -54,14 +44,6 @@ export const items = [
     input: 'Company name, practical applications, references and any existing identity constraints.',
     process: 'Short brief and check-ins → concept direction → refine as the company develops → prepare working files and exports.',
     handoff: 'Editable source files and a visual system that can carry through diagrams, decks and pages.' },
-  { id: 'words-pack', title: 'Profile Build', format: 'Company narrative & profile', priceCents: 75000,
-    example: { type: 'copy', ...fictionalCompany },
-    description: 'Through a series of short workshops, clarify WHO you are talking to, HOW your technology works and WHY it matters to them. Build short and long profiles from that thinking.',
-    useful: 'The team needs a dependable company profile and a working position it can revisit as sectors, customers or funding paths change.',
-    deliverables: ['A working audience and positioning hypothesis', 'A one-line company description', 'Short and long company profiles for decks and other early materials', 'Founder and team bios, where needed', 'Questions and evidence to test next'],
-    input: 'Working answers about the technology, industry, ideal customers, route to market, useful shortcuts, grants and funding targets. Existing notes, slides and uncertainties are welcome.',
-    process: 'Start with what the team knows → hold short working sessions as the story takes shape → draft and refine profiles → check accuracy and tone → hand over working versions.',
-    handoff: 'Editable short and long profiles, with a working decision record that can change as the team learns.' },
   { id: 'visual-explanation', title: 'Static Visuals', format: 'Images & diagrams', priceCents: 75000,
     description: 'Simple images and diagrams that explain the technology, the science and its applications.',
     useful: 'Judges, investors and partners need a clear visual starting point for unfamiliar science.',
