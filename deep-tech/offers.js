@@ -102,7 +102,32 @@ export const containers = [
     input: 'Spokespeople, location access, filming permissions, approved claims and intended audiences.', process: 'Plan short conversations → film → select and edit → review for accuracy and permissions.', handoff: 'Finished interview clips, captions and agreed footage files for reuse in future formats.' }
 ].map(container => ({ priceCents: null, ...container }));
 
-export const itemById = Object.fromEntries([...items, ...containers].map(item => [item.id, item]));
+// Presentation support is a local offer draft. Refresh uses a reference deck size; visual work and full builds are quoted to scope.
+export const presentationSupport = [
+  { id: 'support-deck-refresh', title: 'Refresh', format: 'Existing deck', label: 'Existing deck', priceCents: 75000, pricePrefix: 'From', priceNote: 'Based on a 10-slide deck. Whole-deck scope confirmed in the quote.',
+    description: 'Bring slides from different decks and different eras into one coherent, consistent presentation. A professional finish, ready for your next conversation.',
+    useful: 'You have the content, but accumulated versions, layouts and styles need to work together as one deck.',
+    deliverables: ['A consistent design across the agreed deck', 'Clear hierarchy, aligned layouts and readable text', 'Existing charts and tables formatted to match', 'An editable deck and presentation PDF'],
+    input: 'Your existing slides, company template or identity, source files and the audience for the next conversation.',
+    process: 'Review the existing material → agree the design pass → refresh the deck → gather feedback → check and deliver.',
+    handoff: 'A coherent, editable deck your team can present professionally and keep using.' },
+  { id: 'support-technical-deck', title: 'Design', format: 'Charts, tables & diagrams', label: 'Charts, tables & diagrams', priceLabel: 'Add to Refresh', priceNote: 'Additional scope and price agreed with your Refresh package.',
+    description: 'Add specific design work to your Refresh package. Rework data tables, flowcharts, Gantt charts and graphs so they are easy to understand while retaining the technical detail.',
+    useful: 'Your deck needs specific tables, charts or diagrams redesigned as part of its refresh.',
+    deliverables: ['Redesigned tables, flowcharts, Gantt charts or graphs to an agreed scope', 'Clear hierarchy, consistent labels and a visual style that fits your deck', 'Technical detail, figures and relationships retained', 'Deck-ready exports and editable sources where practical'],
+    input: 'Existing charts, tables or diagrams, their source files and data, your deck style and someone who can check the technical detail.',
+    process: 'Review the source material and key message → agree the elements to rework → redesign → check against the source → deliver.',
+    handoff: 'Reusable visual elements within your refreshed deck. We quote this work as an addition to your Refresh package, based on the number and complexity of elements to be redesigned.' },
+  { id: 'support-pitch-deck', title: 'Build', format: 'New deck', label: 'New deck', priceLabel: 'Custom quote',
+    description: 'Build a complete deck from your narrative, notes and evidence. Help investors, customers and partners follow your journey, understand the case and see the next step.',
+    useful: 'You have the story and supporting material, and need a complete presentation shaped for a particular audience.',
+    deliverables: ['A complete deck built from your supplied narrative and evidence', 'A consistent design with clear headlines and slide hierarchy', 'Supporting visuals to an agreed scope', 'An editable deck and presentation PDF'],
+    input: 'Your narrative, working notes, evidence, company identity, audience and meeting date.',
+    process: 'Confirm the audience and narrative → map the content into a deck → agree the design direction → build → review and deliver.',
+    handoff: 'A complete, editable deck for your next conversation. Scope and price are customised to the story, content and visual work needed.' }
+].map(item => ({ priceCents: null, ...item }));
+
+export const itemById = Object.fromEntries([...items, ...containers, ...presentationSupport].map(item => [item.id, item]));
 
 export function packageQuote(stage, catalog = itemById) {
   if (stage.pricingMode === 'custom') return null;

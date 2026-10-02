@@ -2,6 +2,8 @@
 
 Public route: `https://monohq.co/deep-tech/` on the existing static MONO website.
 
+The page follows 01 WHO, 02 HOW, 03 PRESENT and 04 SUPPORT. SUPPORT uses the eyebrow “Presentation support”, the shared stage heading layout and full-width service rows for Refresh (Existing deck), Design (Charts, tables & diagrams) and Build (New deck). The rows stack on smaller screens. Refresh starts at $750 using a 10-slide deck as a reference; Design is quoted as an addition to the Refresh package; Build is custom quoted. Existing WHO/HOW prices are unchanged.
+
 The page displays offers, indicative prices and quote labels. It has no cart, enquiry submission or payment flow; the closing action opens an email to MONO. The GitHub repository is public.
 
 ## Preview
@@ -10,11 +12,13 @@ From the repository root, run `npm run dev` (no package installation required) a
 
 ## Offer architecture
 
-The page has two foundation packs and a PRESENT section for finished formats:
+The page has two foundation packs, finished formats and presentation support:
 
 1. **WHO Pack:** Photography and Micro Design System. These build visual foundations around the existing company story. The team brings its company name and story, people and workplace, visual references, identity constraints and the materials it needs next.
 2. **HOW Pack:** Static Visuals, Animated Visualisation and Detailed Explainers. These make the science, technology and applications understandable through diagrams, motion and a deeper explanation with copy, visuals and selected available footage. New filming belongs in PRESENT.
 3. **PRESENT:** send-aheads, scrollers, leave-behinds, pitch decks, landing pages, press kits, explainer films and interviews turn the reusable source elements into polished, audience-ready pieces. Each format is scoped separately. Updating source elements supports a new hypothesis, sector or funder mission without rebuilding everything.
+
+4. **SUPPORT:** refresh an existing deck, add specific visual design work to a deck refresh or build a new deck from the team’s narrative, notes and evidence. Design reworks tables, flowcharts, Gantt charts and graphs while retaining the technical detail.
 
 Both foundation packs develop through short, incremental conversations and reviews alongside production, at the pace of the company. There is no standalone long workshop offer.
 
