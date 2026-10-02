@@ -1,5 +1,8 @@
+import { initHeroLight } from './hero-light.js?v=20261002-ambient-v2';
+
 // Progressive enhancement: content stays visible if motion is unavailable.
 export function initMotion() {
+  initHeroLight();
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
   const animations = new Set();

@@ -296,3 +296,26 @@ h2{line-height:1.08}
   .support-item .item-buy{margin-top:20px}
   .support-item .price-note{max-width:290px}
 }
+
+/* Diffuse, slowly swimming light behind the opening only. */
+.site-header{position:relative;z-index:1}
+.hero{position:relative;isolation:isolate}
+.hero-atmosphere{position:absolute;z-index:-1;pointer-events:none;top:-100px;bottom:0;left:50%;width:100vw;transform:translateX(-50%);overflow:hidden;contain:paint;mask-image:linear-gradient(to bottom,transparent,black 14%,black 68%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,transparent,black 14%,black 68%,transparent 100%)}
+.hero-light-field{position:absolute;inset:-5%;will-change:transform}
+.hero-light{position:absolute;display:block;border-radius:50%;filter:blur(35px);will-change:transform;animation-timing-function:ease-in-out;animation-iteration-count:infinite;animation-direction:alternate}
+.hero-light-blue{width:85%;height:95%;left:-18%;top:8%;background:radial-gradient(ellipse at center,rgba(78,87,200,.33),rgba(52,58,139,.15) 40%,transparent 70%);animation-name:light-swim-blue;animation-duration:18s;animation-delay:-9s}
+.hero-light-silver{width:76%;height:60%;left:27%;top:-6%;background:radial-gradient(ellipse at center,rgba(147,163,190,.19),rgba(89,109,154,.09) 42%,transparent 71%);animation-name:light-swim-silver;animation-duration:24s;animation-delay:-17s}
+.hero-light-cyan{width:70%;height:95%;right:-20%;top:24%;background:radial-gradient(ellipse at center,rgba(56,128,160,.22),rgba(42,74,117,.11) 42%,transparent 70%);animation-name:light-swim-cyan;animation-duration:28s;animation-delay:-8s}
+@keyframes light-swim-blue{0%{transform:translate3d(-4%,-3%,0) rotate(-14deg) scale(.98,1.05)}50%{transform:translate3d(12%,8%,0) rotate(8deg) scale(1.07,.91)}100%{transform:translate3d(24%,-5%,0) rotate(19deg) scale(.96,1.13)}}
+@keyframes light-swim-silver{0%{transform:translate3d(7%,-4%,0) rotate(-15deg) scale(1,.8)}50%{transform:translate3d(-9%,16%,0) rotate(4deg) scale(1.08,1)}100%{transform:translate3d(-20%,5%,0) rotate(18deg) scale(.96,.9)}}
+@keyframes light-swim-cyan{0%{transform:translate3d(7%,7%,0) rotate(17deg) scale(.94,1.04)}50%{transform:translate3d(-13%,-7%,0) rotate(-6deg) scale(1.04,.96)}100%{transform:translate3d(-23%,6%,0) rotate(-20deg) scale(1.08,1.12)}}
+.hero-atmosphere.is-still .hero-light,.page-idle .hero-light{animation-play-state:paused}
+@media(max-width:600px){.hero-atmosphere{top:-78px}.hero-light{filter:blur(22px)}.hero-light-blue{width:140%;left:-58%}.hero-light-silver{width:140%;left:10%;opacity:.75}.hero-light-cyan{width:130%;right:-66%}}
+@media(prefers-reduced-motion:reduce){.hero-light{animation:none;will-change:auto}.hero-light-field{transform:none!important;will-change:auto}}
+
+/* A local pool of light follows the pointer, with a slower blue wake. */
+.hero-pointer-light{position:absolute;left:0;top:0;display:block;pointer-events:none;opacity:0;will-change:transform;transition:opacity .65s ease;border-radius:50%}
+.hero-pointer-core{width:620px;height:480px;margin:-240px 0 0 -310px;background:radial-gradient(ellipse,rgba(129,169,206,.3),rgba(87,133,185,.19) 25%,rgba(80,111,168,.07) 49%,transparent 72%)}
+.hero-pointer-trail{width:800px;height:580px;margin:-290px 0 0 -400px;background:radial-gradient(ellipse,rgba(104,94,233,.31),rgba(76,72,179,.18) 30%,transparent 70%)}
+.hero-atmosphere.is-interacting .hero-pointer-light{opacity:1}
+@media(prefers-reduced-motion:reduce){.hero-pointer-light{display:none;will-change:auto}}

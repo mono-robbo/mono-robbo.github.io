@@ -84,4 +84,4 @@ tickerToggle?.addEventListener('click', () => {
 });
 
 // Motion is optional, so an unavailable animation module cannot block the offers.
-import('./motion.js').then(({ initMotion }) => initMotion()).catch(() => {});
+import('./motion.js?v=20261002-ambient-v2').then(({ initMotion }) => initMotion()).catch(() => {});
