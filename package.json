@@ -4,6 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "node tools/preview.cjs",
-    "test:deep-tech": "node --test deep-tech/tests/selection.test.mjs"
+    "test:deep-tech": "node --test deep-tech/tests/selection.test.mjs",
+    "test:analytics": "node --test tests/analytics.test.mjs tests/analytics-submissions.test.mjs",
+    "test": "npm run test:deep-tech && npm run test:analytics"
   }
 }

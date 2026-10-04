@@ -3,23 +3,12 @@ const CHECKOUT_URL = 'https://buy.stripe.com/fZubJ1gtqgAJb6FfiBdUY01';
 const CHECKOUT_READY = true;
 // The endpoint accepts requests only from the MONO pool landing page.
 const SAMPLE_REQUEST_ENDPOINT = 'https://mono-pool-sample-request.mono-pools.workers.dev/sample-request';
-// Initialise measurement before optional media features so analytics still loads
-// if a browser cannot support one of the richer video interactions below.
-const measurementId = 'G-NHGGBL110F';
-const url = new URL(location.href);
-let internal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) || location.protocol === 'file:';
-try { internal ||= localStorage.getItem('mono_analytics_opt_out') === '1'; } catch (_) {}
-const allowed = {utm_source:/^mono_outreach$/,utm_medium:/^email$/,utm_campaign:/^(2026q3_pool_99|2026q3_pool99_batch02)$/,utm_id:/^mo_pool99_(?:01|\d{3})$/,utm_content:/^(control|challenger|challenge)$/,outreach_country:/^au$/,outreach_industry:/^(pool_installer|pool_builder)$/,outreach_variant:/^(control|challenger|challenge)$/,outreach_batch_id:/^mo_2026w[0-9]{2}_[0-9]{2}$/};
-const context = {};
-const clean = new URL(url.origin + url.pathname);
-for (const [key, pattern] of Object.entries(allowed)) { const value = url.searchParams.get(key); if (url.searchParams.getAll(key).length === 1 && value && pattern.test(value)) {context[key]=value;clean.searchParams.set(key,value);} }
-if (/^#(package|examples|process|questions|intro)$/.test(url.hash)) clean.hash=url.hash;
-if (location.protocol !== 'file:') history.replaceState(null,'',clean);
-window.dataLayer=window.dataLayer||[];
-function gtag(){window.dataLayer.push(arguments);}
-function track(name, props={}) {if(!internal) gtag('event',name,{offer_id:'pool_99_v1',page_version:'cinema_v3_fastvideo',...context,...props});}
-function mediaState(video){const error=video.error;return {media_error_code:error?.code||0,network_state:video.networkState,ready_state:video.readyState,current_src:(video.currentSrc||video.getAttribute('src')||video.dataset.src||'').split('/').pop(),connection_type:navigator.connection?.effectiveType||'unknown',save_data:Boolean(navigator.connection?.saveData)};}
-if(!internal){window.gtag=gtag;gtag('js',new Date());gtag('config',measurementId,{page_location:clean.href,page_referrer:document.referrer ? new URL(document.referrer).origin+'/' : '',send_page_view:true});const tag=document.createElement('script');tag.async=true;tag.src='https://www.googletagmanager.com/gtag/js?id='+measurementId;document.head.append(tag);track('pool_page_loaded',{landing_hash:clean.hash||'none'});[15,30,60,120].forEach(seconds=>setTimeout(()=>track('pool_time_on_page',{seconds}),seconds*1000));}
+// The shared, privacy-filtered tracker is loaded in the page head.
+const context = window.MONOAnalytics?.context || {};
+function track(name, props={}) { window.MONOAnalytics?.track(name, {offer_id:'pool_99_v1',page_version:'cinema_v3_fastvideo',...props}); }
+function mediaState(video){const error=video.error;return {media_error_code:error?.code||0,network_state:video.networkState,ready_state:video.readyState,connection_type:navigator.connection?.effectiveType||'unknown',save_data:Boolean(navigator.connection?.saveData)};}
+track('pool_page_loaded',{landing_hash:/^#(package|examples|process|questions|intro)$/.test(location.hash)?location.hash:'none'});
+[15,30,60,120].forEach(seconds=>setTimeout(()=>track('pool_time_on_page',{seconds}),seconds*1000));
 const heroVideo=document.querySelector('.hero-background');heroVideo.muted=true;heroVideo.defaultMuted=true;heroVideo.playsInline=true;
 const heroMotion=document.querySelector('.hero-motion');
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
@@ -192,11 +181,12 @@ async function sendSampleRequest(request,button){
  try{
   const response=await fetch(SAMPLE_REQUEST_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(request)});
   const result=await response.json().catch(()=>({}));
-  if(!response.ok)throw new Error(result.error||'Unable to send request');
+  if(!response.ok || result.ok !== true)throw new Error(result.error||'Unable to send request');
   dialog.querySelector('.eyebrow').textContent='MONOº / Request received';
   title.textContent='Check your inbox.';
   copy.innerHTML='<p>Thanks - we\'ve emailed you a confirmation and the instruction to get your free sample. Please check your inbox!</p>';
   track('pool_sample_request_sent',{placement:request.placement});
+  window.MONOAnalytics?.lead('pool-sample-request');
  }catch(error){
   button.disabled=false;button.textContent='Request a free sample!';
   const errorCopy=document.createElement('p');errorCopy.className='sample-form-error';errorCopy.textContent='We couldn’t send your request. Please try again or email robin@monohq.co.';

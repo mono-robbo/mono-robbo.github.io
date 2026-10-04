@@ -27,109 +27,7 @@
     "location": { "@type": "Place", "name": "Sydney" }
   }
   </script>
-  <!-- Google tag (gtag.js): initialize before the page unpacking pipeline. -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NHGGBL110F"></script>
-  <script>
-    (function() {
-      var search = new URLSearchParams(window.location.search);
-      var oneValue = function(name) {
-        var values = search.getAll(name);
-        return values.length === 1 ? values[0] : '';
-      };
-      var isOutreach = oneValue('utm_source') === 'mono_outreach' &&
-        oneValue('utm_medium') === 'email';
-      var outreachKeys = [
-        'outreach_persona',
-        'outreach_industry',
-        'outreach_cadence_step',
-        'outreach_test_variable',
-        'outreach_variant',
-        'outreach_batch_id'
-      ];
-      var safeSlug = /^[a-z0-9]+(?:_[a-z0-9]+)*$/;
-      var validators = {
-        outreach_persona: /^(?:manager|director|executive)$/,
-        outreach_industry: /^(?:consumer_electronics|telco|fmcg|retailer|agency)$/,
-        outreach_cadence_step: /^(?:d0_initial|d2_followup_1|d4_followup_2|d6_followup_3)$/,
-        outreach_test_variable: /^(?:none|subject|cta|priority_stack)$/,
-        outreach_variant: /^(?:control|a|b)$/,
-        outreach_batch_id: /^mo_20[0-9]{2}w(?:0[1-9]|[1-4][0-9]|5[0-3])_(?:0[1-9]|[1-9][0-9])$/
-      };
-      var outreachContext = {};
-
-      if (isOutreach) {
-        outreachKeys.forEach(function(key) {
-          var value = oneValue(key);
-          if (value.length <= 48 && safeSlug.test(value) && validators[key].test(value)) {
-            outreachContext[key] = value;
-          }
-        });
-      }
-
-      // Window state survives the bundled document swap below. Only controlled,
-      // cohort-level values are exposed; no contact-level identifiers are accepted.
-      window.__monoOutreachContext = Object.freeze(outreachContext);
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = window.gtag || function() { window.dataLayer.push(arguments); };
-
-      if (!window.__monoAnalyticsConfigured) {
-        window.__monoAnalyticsConfigured = true;
-        var config = Object.assign({}, outreachContext);
-        if (isOutreach) {
-          var safeLocation = new URL(window.location.href);
-          var campaign = oneValue('utm_campaign');
-          var campaignId = oneValue('utm_id');
-          var campaignContent = oneValue('utm_content');
-          var safeCampaign = /^(20[0-9]{2}q[1-4])_(consumer_electronics|telco|fmcg|retailer|agency)_(manager|director|executive)_[a-z][a-z0-9]{0,19}(?:_[a-z0-9]{1,20}){0,2}$/;
-          var safeCampaignId = /^mo_(20[0-9]{2}q[1-4])_[0-9]{3}$/;
-          var campaignMatch = safeCampaign.exec(campaign);
-          var campaignIdMatch = safeCampaignId.exec(campaignId);
-          var hasMatchingCampaign = !!(
-            campaign.length <= 96 &&
-            campaignMatch &&
-            campaignMatch[2] === outreachContext.outreach_industry &&
-            campaignMatch[3] === outreachContext.outreach_persona
-          );
-          var expectedContent = [
-            outreachContext.outreach_cadence_step,
-            outreachContext.outreach_test_variable,
-            outreachContext.outreach_variant
-          ].join('_');
-          var hasExpectedContent = !!(
-            outreachContext.outreach_cadence_step &&
-            outreachContext.outreach_test_variable &&
-            outreachContext.outreach_variant
-          );
-          safeLocation.search = '';
-          safeLocation.hash = '';
-          safeLocation.searchParams.set('utm_source', 'mono_outreach');
-          safeLocation.searchParams.set('utm_medium', 'email');
-          config.campaign_source = 'mono_outreach';
-          config.campaign_medium = 'email';
-          if (hasMatchingCampaign) {
-            safeLocation.searchParams.set('utm_campaign', campaign);
-            config.campaign_name = campaign;
-          }
-          if (hasMatchingCampaign && campaignIdMatch && campaignIdMatch[1] === campaignMatch[1]) {
-            safeLocation.searchParams.set('utm_id', campaignId);
-            config.campaign_id = campaignId;
-          }
-          if (hasExpectedContent && campaignContent === expectedContent) {
-            safeLocation.searchParams.set('utm_content', campaignContent);
-            config.campaign_content = campaignContent;
-          }
-          config.page_location = safeLocation.toString();
-        }
-        window.gtag('js', new Date());
-        window.gtag('config', 'G-NHGGBL110F', config);
-      }
-
-      if (isOutreach && !window.__monoOutreachLandingTracked) {
-        window.__monoOutreachLandingTracked = true;
-        window.gtag('event', 'outreach_landing', Object.assign({ non_interaction: true }, outreachContext));
-      }
-    })();
-  </script>
+  <script src="/assets/analytics.js?v=20261004-ga4"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -635,21 +533,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.documentElement.replaceWith(doc.documentElement);
 
     function trackAnalyticsEvent(name, params) {
-      const eventParams = Object.assign({}, params || {}, window.__monoOutreachContext || {});
-      if (typeof window.gtag === 'function') window.gtag('event', name, eventParams);
+      window.MONOAnalytics?.track(name, params);
     }
 
     document.addEventListener('click', function(event) {
-      const link = event.target.closest && event.target.closest('a[href]');
-      if (link) {
-        const href = link.getAttribute('href') || '';
-        if (href.indexOf('mailto:') === 0) {
-          trackAnalyticsEvent('generate_lead', { method: 'email' });
-        } else if (href === '#talk') {
-          trackAnalyticsEvent('contact_intent', { method: 'contact_section' });
-        }
-      }
-
       const workToggle = event.target.closest && event.target.closest('[data-work-toggle]');
       if (workToggle) {
         const expanded = workToggle.getAttribute('aria-expanded') !== 'true';
@@ -691,6 +578,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     const dead = Array.from(document.scripts);
     for (const old of dead) {
+      // The shared tag is already live and must never be executed a second time.
+      if (old.id === 'mono-ga4-loader') continue;
       const s = document.createElement('script');
       for (const a of old.attributes) s.setAttribute(a.name, a.value);
       s.textContent = old.textContent;
