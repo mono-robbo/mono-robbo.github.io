@@ -106,8 +106,8 @@
     'placement', 'cta', 'destination', 'film_id', 'media_type', 'media_id', 'action', 'document_type',
     'faq_id', 'finish_id', 'content_type', 'content_id', 'connection_type', 'error_type', 'dwell_reason']);
   const numberFields = new Set(['seconds', 'percent', 'percent_scrolled', 'startup_ms', 'position_seconds',
-    'media_error_code', 'network_state', 'ready_state', 'step', 'visible_time_ms']);
-  const events = new Set(['deeptech_section_reached', 'deeptech_dwell', 'outreach_landing', 'contact_intent', 'contact_section_view', 'email_click',
+    'duration_seconds', 'from_seconds', 'buffer_ms', 'playback_rate', 'media_error_code', 'network_state', 'ready_state', 'step', 'visible_time_ms']);
+  const events = new Set(['earthai_video_summary', 'earthai_cta_click', 'earthai_dwell', 'earthai_page_loaded', 'earthai_scroll_depth', 'earthai_section_view', 'earthai_video_buffer', 'earthai_video_close', 'earthai_video_complete', 'earthai_video_error', 'earthai_video_fallback', 'earthai_video_fullscreen', 'earthai_video_open', 'earthai_video_pause', 'earthai_video_play_blocked', 'earthai_video_progress', 'earthai_video_rate', 'earthai_video_request', 'earthai_video_resume', 'earthai_video_seek', 'earthai_video_start', 'earthai_video_volume', 'deeptech_section_reached', 'deeptech_dwell', 'outreach_landing', 'contact_intent', 'contact_section_view', 'email_click',
     'enquiry_start', 'form_step_view', 'form_submit_attempt', 'form_submit_error', 'generate_lead', 'view_more_work', 'select_content',
     'pool_page_loaded', 'pool_time_on_page', 'pool_video_request', 'pool_hero_video_play', 'pool_package_media_view',
     'pool_package_video_play', 'pool_package_video_pause', 'pool_package_video_seek', 'pool_package_video_progress',
@@ -222,7 +222,7 @@
   // Strip unapproved query strings and non-page anchors before Google can read
   // location independently. Preserve normal in-page navigation and history state.
   const browserLocation = new URL(safeLocation.href);
-  if (/^#(?:about|containers|enquiry|films|films-title|film-garden|film-pool|film-kitchen|how|main|offers|package|presentation-support|privacy|process|produce|quote|range|start|talk|top|trade|what|who|work|examples|questions|intro|offer)$/.test(location.hash)) browserLocation.hash = location.hash;
+  if (/^#(?:deep-tech|main-sequence|storytelling|working-together|about|containers|enquiry|films|films-title|film-garden|film-pool|film-kitchen|how|main|offers|package|presentation-support|privacy|process|produce|quote|range|start|talk|top|trade|what|who|work|examples|questions|intro|offer)$/.test(location.hash)) browserLocation.hash = location.hash;
   if (browserLocation.href !== location.href) {
     try { history.replaceState(history.state, '', browserLocation.href); }
     catch (_) { disable(); return; }
