@@ -154,10 +154,12 @@
     else {ownsHistory=false;cleanUp('back');}
   });
   dialog.addEventListener('close',()=>{if(active)cleanUp('close_button');});
+  const contactTargets=Object.freeze({email_contact:'mailto:robin@monohq.co?subject=A%20conversation%20with%20Robin',phone_contact:'tel:+61421489940'});
   document.querySelectorAll('[data-contact]').forEach(button=>button.addEventListener('click',e=>{
-    track('cta_click',{cta:'email_contact',placement:button.closest('footer')?'footer':'contact'});
-    // Contact addresses stay out of automatic outbound-link measurement.
-    if(!e.defaultPrevented)location.href='mailto:hello@monohq.co?subject=A%20conversation%20with%20Robin';
+    const cta=button.dataset.contact;if(!Object.hasOwn(contactTargets,cta))return;
+    track('cta_click',{cta,placement:button.closest('footer')?'footer':'contact'});
+    // Contact addresses and phone numbers stay out of automatic outbound-link measurement.
+    if(!e.defaultPrevented)location.href=contactTargets[cta];
   }));
   document.addEventListener('click',e=>{
     const a=e.target.closest('a');if(!a)return;
