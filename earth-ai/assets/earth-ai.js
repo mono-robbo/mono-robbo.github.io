@@ -21,9 +21,20 @@
   let opener = null;
   let closeReason = 'close_button';
 
+  function videoSource(button) {
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const mobile = window.matchMedia('(max-width: 760px), (pointer: coarse)').matches;
+    const constrained = connection && (connection.saveData ||
+      /^(slow-2g|2g|3g)$/.test(connection.effectiveType || '') ||
+      (Number.isFinite(connection.downlink) && connection.downlink < 2.5));
+    return button.dataset.mobileVideo && (mobile || constrained)
+      ? button.dataset.mobileVideo : button.dataset.video;
+  }
+
   function makePlayer(button, mode) {
     const card = button.closest('[data-film]');
     const film = card.dataset.film;
+    const source = videoSource(button);
     const video = document.createElement('video');
     video.className = 'film-player';
     video.controls = true;
@@ -120,13 +131,13 @@
       message.className = 'film-error';
       message.append('The film couldn’t load. ');
       const retry = document.createElement('a');
-      retry.href = button.dataset.video;
+      retry.href = source;
       retry.textContent = 'Open the film directly';
       retry.addEventListener('click', () => emit('earthai_video_fallback'));
       message.append(retry); video.after(message);
     });
     // Assign a URL only as the result of a deliberate play-button click.
-    video.src = button.dataset.video;
+    video.src = source;
     emit('earthai_video_request');
     return { video, emit, destroy(reason) {
       flushBuffer(); emit('earthai_video_close', { action: reason });
