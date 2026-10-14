@@ -95,9 +95,12 @@ test('reattaches the same tag after document replacement without reconfiguration
   assert.equal(h.scripts.length,1); assert.equal(h.configs().length,1); assert.equal(h.scripts[0].isConnected,true);
 });
 function files(dir) { return readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.name.startsWith('.')?[]:e.isDirectory()?files(resolve(dir,e.name)):[resolve(dir,e.name)]); }
-test('every public HTML entry includes exactly one shared tracker; utility and redirect excluded', () => {
-  const html=files(root).filter(f=>f.endsWith('.html')); assert.equal(html.length,16);
+test('shared public HTML entries include one tracker; legacy private page, utility and redirect excluded', () => {
+  const html=files(root).filter(f=>f.endsWith('.html'));
+  assert.ok(html.some(f=>f.endsWith('/selected-work/index.html')));
   for(const file of html){const source=readFileSync(file,'utf8');const excluded=/(?:internal-analytics|sennheiser-case-study)\.html$/.test(file);
+    // Smith Family retains its separate legacy tracker and publication behavior.
+    if(file.endsWith('/smith-family/index.html')) continue;
     assert.equal((source.match(/src="\/assets\/analytics\.js\?/g)||[]).length,excluded?0:1,file);
     assert.doesNotMatch(source,/googletagmanager\.com|G-NHGGBL110F/,file);
   }
@@ -137,6 +140,32 @@ test('bounded opaque Google click IDs survive without accepting freeform identif
     const duplicate=harness({url:'https://monohq.co/?'+key+'='+token+'&'+key+'='+token});
     assert.equal(duplicate.win.location.search,'');
   }
+});
+
+test('selected work retains approved company UTMs and all portfolio navigation anchors', () => {
+  for (const source of ['superhaus', 'supersolid', 'mono_outreach']) {
+    const h = harness({url:`https://monohq.co/selected-work/?utm_source=${source}&utm_medium=email&utm_campaign=social_editor_202610&utm_content=reply&email=private%40test.invalid#cases`});
+    assert.equal(h.configs().length, 1);
+    assert.equal(h.configs()[0][2].campaign_source, source);
+    assert.equal(h.configs()[0][2].campaign_name, 'social_editor_202610');
+    assert.equal(h.win.location.hash, '#cases');
+    h.win.MONOAnalytics.track('portfolio_video_start', {film_id:'uber-shania',startup_ms:420, current_src:'private.mp4'});
+    const event=h.events().find(e=>e[1]==='portfolio_video_start');
+    assert.equal(event[2].film_id,'uber-shania');
+    assert.equal(event[2].utm_source,source);
+    assert.equal(event[2].startup_ms,420);
+    assert.doesNotMatch(JSON.stringify(h.win.dataLayer),/private|email=/);
+  }
+});
+test('selected work rejects unknown and duplicate attribution and respects opt-out', () => {
+  for (const suffix of ['utm_source=other&utm_medium=email&utm_campaign=social_editor_202610','utm_source=superhaus&utm_source=supersolid&utm_medium=email&utm_campaign=social_editor_202610','utm_source=superhaus&utm_medium=email&utm_campaign=other']) {
+    const h=harness({url:'https://monohq.co/selected-work/?'+suffix});
+    assert.equal(h.configs()[0][2].campaign_source,undefined);
+    assert.equal(h.win.location.search,'');
+  }
+  const opted=harness({url:'https://monohq.co/selected-work/',optOut:true});
+  opted.win.MONOAnalytics.track('portfolio_video_open',{film_id:'uber-shania'});
+  assert.equal(opted.scripts.length,0); assert.equal(opted.events().length,0);
 });
 test('retired Water Water page and assets are absent', () => {
   for (const file of ['index.html','app.js','motion.css','styles.css','assets/hero.jpg']) {

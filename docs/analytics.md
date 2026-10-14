@@ -6,6 +6,8 @@ The shared `assets/analytics.js` uses the existing GA4 tag **G-NHGGBL110F** (MON
 
 Tracked public content routes:
 
+Prepared addition: `/selected-work/` (including the slashless alias). Public asset publication is awaiting approval; see [selected work measurement](selected-work.md) for the event inventory and verification status.
+
 - `/`, `/deep-tech/`, `/earth-ai/`, `/motion-graphics/`, `/rollout/`
 - `/visualise/`, `/visualise/uk/`, `/visualise/us/`
 - `/visualise/pools/`, `/visualise/pools/intake.html`, `/visualise/pools/privacy.html`, `/visualise/pools/terms.html`

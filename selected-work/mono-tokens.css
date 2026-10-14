@@ -1,0 +1,161 @@
+/*
+ * MONO Design System — Colors & Typography
+ * Source: MONO Site.fig + monohq.co (June 2026)
+ * Font: SF Pro Display (Apple system font)
+ * Fallback: Plus Jakarta Sans (Google Fonts — closest free match)
+ *
+ * NOTE: SF Pro Display renders natively on macOS/iOS devices.
+ * On other platforms, Plus Jakarta Sans is loaded as a close substitute.
+ */
+
+/* ─── GOOGLE FONTS FALLBACK ─────────────────────────────────────── */
+/* Google Fonts @import removed for offline publishing — system font stack used instead */
+
+/* ─── BASE COLOR TOKENS ─────────────────────────────────────────── */
+:root {
+  /* Brand Blue */
+  --color-blue:          #1414F7;   /* rgb(20,20,247)  — primary accent */
+  --color-blue-glow:     #3D3DFF;   /* rgb(61,61,255)  — glow (use with mix-blend-mode: screen) */
+  --color-blue-deep:     #0C0C91;   /* rgb(12,12,145)  — deep blue, strokes/accents */
+  --color-blue-input:    rgba(20,20,247,0.1);  /* input field background */
+  --color-blue-tint:     rgba(20,20,247,0.25); /* card inner glow */
+
+  /* Dark canvas */
+  --color-dark:          #020112;   /* rgb(2,1,18)     — hero, problems, footer bg */
+
+  /* Light canvas */
+  --color-cream:         #F3F2EE;   /* rgb(243,242,238) — page bg, light text on dark */
+  --color-white:         #FFFFFF;   /* cards, secondary buttons */
+
+  /* Text */
+  --color-dark-text:     #020112;   /* text on light backgrounds */
+  --color-light-text:    #F3F2EE;   /* text on dark backgrounds */
+  --color-white-text:    #FFFFFF;   /* pure white text */
+  --color-muted:         rgba(255,255,255,0.7); /* muted on dark */
+
+  /* Borders */
+  --color-border-dark:   rgba(255,255,255,0.2);  /* nav border on dark */
+  --color-border-blue:   rgba(20,20,247,0.2);    /* blue-tinted borders */
+}
+
+/* ─── SEMANTIC ALIASES ──────────────────────────────────────────── */
+:root {
+  --bg-dark:     var(--color-dark);
+  --bg-light:    var(--color-cream);
+  --bg-white:    var(--color-white);
+  --accent:      var(--color-blue);
+  --fg-dark:     var(--color-dark-text);
+  --fg-light:    var(--color-light-text);
+}
+
+/* ─── TYPOGRAPHY ────────────────────────────────────────────────── */
+:root {
+  /*
+   * Primary: SF Pro Display (Apple system font — renders natively on macOS/iOS)
+   * Fallback: Plus Jakarta Sans (closest Google Fonts match)
+   */
+  --font-sans:   -apple-system, BlinkMacSystemFont, 'SF Pro Display',
+                 'Plus Jakarta Sans', 'Helvetica Neue', sans-serif;
+  --font-mono:   'IBM Plex Mono', monospace;
+
+  /* Weights */
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-bold:     700;
+
+  /* Type scale (from Figma) */
+  --text-hero:    86px;   /* Hero h1 */
+  --text-h2:      68px;   /* Section headings */
+  --text-h3:      44px;   /* Card/sub headings */
+  --text-h4:      38px;   /* Smaller section headings */
+  --text-cta:     26px;   /* Button text */
+  --text-large:   30px;   /* Body large / sub-headings */
+  --text-base:    22px;   /* Body / labels */
+  --text-sm:      16px;   /* Small text */
+  --text-xs:      13px;   /* Captions */
+
+  /* Line heights */
+  --lh-tight:   1;
+  --lh-snug:    1.1;
+  --lh-normal:  1.4;
+
+  /* Letter spacing */
+  --ls-display:  -0.020em;
+  --ls-heading:  -0.020em;
+  --ls-sub:      -0.010em;
+  --ls-normal:    0em;
+}
+
+/* ─── SPACING ───────────────────────────────────────────────────── */
+:root {
+  --space-1:    4px;
+  --space-2:    8px;
+  --space-3:    12px;
+  --space-4:    16px;
+  --space-6:    24px;
+  --space-8:    32px;
+  --space-10:   40px;
+  --space-12:   48px;
+  --space-16:   64px;
+  --space-20:   80px;
+  --space-24:   96px;
+  --space-30:  120px;
+  --space-section: 120px; /* standard section vertical padding */
+}
+
+/* ─── BORDERS & RADIUS ──────────────────────────────────────────── */
+:root {
+  --radius-input:   12px;    /* input fields */
+  --radius-card:    32px;    /* feature cards */
+  --radius-section: 48px;    /* dark section rounded corners */
+  --radius-pill:    9999px;  /* buttons, tags */
+  --radius-icon:    9999px;  /* icon circle containers */
+}
+
+/* ─── SHADOWS ───────────────────────────────────────────────────── */
+:root {
+  --shadow-card:    0px 4px 34px 4px rgba(0,0,0,0.06);
+  --shadow-card-lg: 0px 8px 48px 8px rgba(0,0,0,0.08);
+}
+
+/* ─── KEY COMPONENTS (reference specs) ─────────────────────────── */
+
+/*
+  NAV:
+  - Height: 118px | Padding: 24px 120px
+  - Border-bottom: 1px solid rgba(255,255,255,0.2) (on dark bg)
+  - Logo: MONO SVG (~144×35px) + blue dot (#1414F7, 10.4px circle)
+  - Nav links: SF Pro Display Medium 22px, white
+  - CTA: pill, bg #F3F2EE, text #020112, padding 16px 24px, SF Pro Display Medium 22px
+
+  HERO:
+  - Bg: #020112 | Rounded: 0 0 48px 48px
+  - Glow: rgb(61,61,255) circles, mix-blend-mode: screen
+  - H1: SF Pro Display Bold 86px, lh 1, color #F3F2EE, centered
+  - Sub: SF Pro Display Medium 30px, lh 1.4, ls -0.02em, color white, centered
+  - Primary CTA: pill, bg #1414F7, height 76px, padding 8px 8px 8px 40px
+    - Text: Bold 26px white + white circle (60px) with arrow
+  - Secondary CTA: pill, bg white, border 2px white, height 76px
+    - Text: Bold 26px #1414F7 + blue circle (60px) with arrow
+
+  FEATURE CARDS (light section):
+  - Bg: white | Radius: 32px | Shadow: 0px 4px 34px 4px rgba(0,0,0,0.06)
+  - Padding: 48px | Width: 834px each (2-col)
+  - Icon: 76×76px circle, bg #1414F7, radius 10000
+  - Heading: SF Pro Display Bold 44px, lh 1.1, #020112
+  - Body: SF Pro Display Medium 30px, lh 1.4, ls -0.02em, #020112
+  - Inner glow: 648×648px circle, rgba(20,20,247,0.25)
+
+  PROBLEM CARDS (dark section):
+  - Bg: linear-gradient(rgba(20,20,247,0) 0%, rgb(20,20,247) 100%)
+  - Radius: 32px | Padding: 48px
+  - Text: SF Pro Display Medium 38px, lh 1.1, ls -0.01em, #F3F2EE
+
+  INPUT FIELDS:
+  - Bg: rgba(20,20,247,0.1) | Radius: 12px | Height: 62px
+  - Padding: 8px 24px | Font: SF Pro Display Regular 22px, #020112
+
+  SUBMIT BUTTON:
+  - Pill, bg #1414F7, SF Pro Display Bold 26px white
+  - Arrow circle on right: 60px, white bg, #1414F7 arrow
+*/

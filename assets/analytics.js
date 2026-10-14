@@ -7,7 +7,7 @@
   const knownPaths = new Set(['/', '/deep-tech/', '/visualise/', '/visualise/uk/', '/visualise/us/',
     '/visualise/pools/', '/visualise/pools/intake.html', '/visualise/pools/privacy.html',
     '/visualise/pools/terms.html', '/visualise/pools-wip/', '/wip-page/', '/rollout/',
-    '/motion-graphics/', '/earth-ai/']);
+    '/motion-graphics/', '/earth-ai/', '/selected-work/', '/selected-work']);
   const path = location.pathname.replace(/\/index\.html$/, '/');
   const eligible = production && knownPaths.has(path);
   const params = new URLSearchParams(location.search);
@@ -24,7 +24,15 @@
       if (value && value.length <= 96 && pattern.test(value)) target[key] = value;
     }
   };
-  if (pool) {
+  const selectedWork = path === '/selected-work/' || path === '/selected-work';
+  if (selectedWork) {
+    if (/^(superhaus|supersolid|mono_outreach)$/.test(one('utm_source')) &&
+      one('utm_medium') === 'email' && one('utm_campaign') === 'social_editor_202610') {
+      context.utm_source = one('utm_source'); context.utm_medium = 'email';
+      context.utm_campaign = 'social_editor_202610';
+      take({ utm_content: /^(portfolio|reply|initial|followup_[1-4])$/ });
+    }
+  } else if (pool) {
     take({
       utm_source: /^mono_outreach$/, utm_medium: /^email$/,
       utm_campaign: /^(?:2026q3_pool_99|2026q3_pool99_batch02)$/,
@@ -107,7 +115,7 @@
     'faq_id', 'finish_id', 'content_type', 'content_id', 'connection_type', 'error_type', 'dwell_reason']);
   const numberFields = new Set(['seconds', 'percent', 'percent_scrolled', 'startup_ms', 'position_seconds',
     'duration_seconds', 'from_seconds', 'buffer_ms', 'playback_rate', 'media_error_code', 'network_state', 'ready_state', 'step', 'visible_time_ms']);
-  const events = new Set(['earthai_video_summary', 'earthai_cta_click', 'earthai_dwell', 'earthai_page_loaded', 'earthai_scroll_depth', 'earthai_section_view', 'earthai_video_buffer', 'earthai_video_close', 'earthai_video_complete', 'earthai_video_error', 'earthai_video_fallback', 'earthai_video_fullscreen', 'earthai_video_open', 'earthai_video_pause', 'earthai_video_play_blocked', 'earthai_video_progress', 'earthai_video_rate', 'earthai_video_request', 'earthai_video_resume', 'earthai_video_seek', 'earthai_video_start', 'earthai_video_volume', 'deeptech_section_reached', 'deeptech_dwell', 'outreach_landing', 'contact_intent', 'contact_section_view', 'email_click',
+  const events = new Set(['portfolio_page_loaded', 'portfolio_scroll_depth', 'portfolio_section_view', 'portfolio_work_view', 'portfolio_dwell', 'portfolio_cta_click', 'portfolio_video_request', 'portfolio_video_open', 'portfolio_video_start', 'portfolio_video_pause', 'portfolio_video_resume', 'portfolio_video_progress', 'portfolio_video_complete', 'portfolio_video_seek', 'portfolio_video_buffer', 'portfolio_video_close', 'portfolio_video_summary', 'portfolio_video_error', 'portfolio_video_fullscreen', 'portfolio_video_rate', 'portfolio_video_volume', 'portfolio_video_play_blocked', 'earthai_video_summary', 'earthai_cta_click', 'earthai_dwell', 'earthai_page_loaded', 'earthai_scroll_depth', 'earthai_section_view', 'earthai_video_buffer', 'earthai_video_close', 'earthai_video_complete', 'earthai_video_error', 'earthai_video_fallback', 'earthai_video_fullscreen', 'earthai_video_open', 'earthai_video_pause', 'earthai_video_play_blocked', 'earthai_video_progress', 'earthai_video_rate', 'earthai_video_request', 'earthai_video_resume', 'earthai_video_seek', 'earthai_video_start', 'earthai_video_volume', 'deeptech_section_reached', 'deeptech_dwell', 'outreach_landing', 'contact_intent', 'contact_section_view', 'email_click',
     'enquiry_start', 'form_step_view', 'form_submit_attempt', 'form_submit_error', 'generate_lead', 'view_more_work', 'select_content',
     'pool_page_loaded', 'pool_time_on_page', 'pool_video_request', 'pool_hero_video_play', 'pool_package_media_view',
     'pool_package_video_play', 'pool_package_video_pause', 'pool_package_video_seek', 'pool_package_video_progress',
@@ -222,7 +230,7 @@
   // Strip unapproved query strings and non-page anchors before Google can read
   // location independently. Preserve normal in-page navigation and history state.
   const browserLocation = new URL(safeLocation.href);
-  if (/^#(?:deep-tech|main-sequence|storytelling|working-together|about|containers|enquiry|films|films-title|film-garden|film-pool|film-kitchen|how|main|offers|package|presentation-support|privacy|process|produce|quote|range|start|talk|top|trade|what|who|work|examples|questions|intro|offer)$/.test(location.hash)) browserLocation.hash = location.hash;
+  if (/^#(?:deep-tech|main-sequence|storytelling|working-together|about|containers|enquiry|films|films-title|film-garden|film-pool|film-kitchen|how|main|offers|package|presentation-support|privacy|process|produce|quote|range|start|talk|top|trade|what|who|work|social|cases|contact|examples|questions|intro|offer)$/.test(location.hash)) browserLocation.hash = location.hash;
   if (browserLocation.href !== location.href) {
     try { history.replaceState(history.state, '', browserLocation.href); }
     catch (_) { disable(); return; }
