@@ -9,6 +9,18 @@
   const browserOptOut = navigator.globalPrivacyControl === true || navigator.doNotTrack === '1' || window.doNotTrack === '1';
   const canonicalLocation = `${window.location.origin}/ignition/`;
   const pageTitle = 'Ignition × MONO';
+  // Accept only the approved campaign labels. Never forward arbitrary query data.
+  const campaign = {};
+  const approvedCampaign = {
+    utm_source:['campaign_source','mono_outreach'],
+    utm_medium:['campaign_medium','email'],
+    utm_campaign:['campaign_name','ignition_intro'],
+    utm_content:['campaign_content','initial_email']
+  };
+  const query = new URLSearchParams(window.location.search);
+  for (const [field,[parameter,approvedValue]] of Object.entries(approvedCampaign)) {
+    if (query.getAll(field).length === 1 && query.get(field) === approvedValue) campaign[parameter] = approvedValue;
+  }
   let consent = false, loaded = false, started = false;
   let priorChoice = null;
   try { priorChoice = localStorage.getItem(storageKey); } catch {}
@@ -26,7 +38,7 @@
   const safeParams = new Set(['percent_scrolled','clip_id','video_percent','video_duration','video_current_time','link_target','link_domain','link_url']);
   function send(name, params = {}) {
     if (!consent || browserOptOut) return;
-    const clean = {site_key:config.siteKey || 'ignition_mono',page_location:canonicalLocation,page_title:pageTitle,page_referrer:''};
+    const clean = {site_key:config.siteKey || 'ignition_mono',page_location:canonicalLocation,page_title:pageTitle,page_referrer:'',...campaign};
     for (const [key,value] of Object.entries(params)) if (safeParams.has(key) && (typeof value === 'string' || Number.isFinite(value))) clean[key]=value;
     if (config.dryRun) {
       let output=document.getElementById('analytics-qa-events');
@@ -47,7 +59,7 @@
     window.gtag('consent','update',{analytics_storage:'granted',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
     window.gtag('js',new Date());
     window.gtag('config',measurementId,{
-      send_page_view:false,allow_google_signals:false,allow_ad_personalization_signals:false,
+      ...campaign,send_page_view:false,allow_google_signals:false,allow_ad_personalization_signals:false,
       page_location:canonicalLocation,page_title:pageTitle,page_referrer:'',
       cookie_prefix:'mono_pitch',cookie_domain:window.location.hostname,cookie_expires:2592000,
       cookie_flags:'SameSite=Lax;Secure'
