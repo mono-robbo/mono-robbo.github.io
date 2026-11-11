@@ -127,3 +127,4 @@ a.pill{text-decoration:none}.contact a.pill:focus-visible{outline-color:#fff}
 .mono-family .contact{margin:10px 10px 0;border-radius:28px;padding:92px 0}.mono-family .contact h2{font-size:clamp(50px,14vw,74px)}
 .mono-family footer.footer{padding-block:64px 24px}.mono-family .footer-word{margin-bottom:32px;padding-bottom:26px}.mono-family footer .footer-legal{margin-left:0;flex-basis:100%}
 }
+.work-item picture,.cs-hero-kv picture{display:block}
