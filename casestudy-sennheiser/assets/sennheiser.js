@@ -42,6 +42,7 @@
       if (!en.isIntersecting) return;
       const el = en.target;
       const media = el.classList.contains('rv-wipe') && el.querySelector('img');
+      if (media) media.loading = 'eager';
       if (media && !media.complete) {
         const show = () => el.classList.add('in');
         media.addEventListener('load', show, { once: true });
@@ -52,6 +53,16 @@
       io.unobserve(el);
     }), { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
     $$('.rv').forEach(el => io.observe(el));
+
+    // A fully clipped image never counts as visible, so the browser's own lazy loading
+    // would not fetch it. Start the fetch ourselves a screen ahead of the reveal.
+    const pre = new IntersectionObserver(entries => entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      const img = en.target.querySelector('img');
+      if (img) img.loading = 'eager';
+      pre.unobserve(en.target);
+    }), { rootMargin: '900px 0px' });
+    $$('.rv-wipe').forEach(el => pre.observe(el));
 
     // The format row plays itself, muted, while it is on screen.
     const saveData = navigator.connection && navigator.connection.saveData;
