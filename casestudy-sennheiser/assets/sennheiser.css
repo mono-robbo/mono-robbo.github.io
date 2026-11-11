@@ -128,3 +128,7 @@ a.pill{text-decoration:none}.contact a.pill:focus-visible{outline-color:#fff}
 .mono-family footer.footer{padding-block:64px 24px}.mono-family .footer-word{margin-bottom:32px;padding-bottom:26px}.mono-family footer .footer-legal{margin-left:0;flex-basis:100%}
 }
 .work-item picture,.cs-hero-kv picture{display:block}
+.mono-family .nav-back{font-family:var(--ui);font-size:14px;font-weight:500;color:#fff;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid rgba(255,255,255,.22);border-radius:9999px;white-space:nowrap;transition:border-color .25s,background .25s}
+.mono-family .nav-back:hover{color:#fff;border-color:#fff;background:rgba(255,255,255,.06)}
+.mono-family .footer-links .footer-back{color:#fff}
+@media(max-width:760px){.mono-family .nav{gap:12px;padding-inline:16px}.mono-family .nav-back{font-size:13px;padding:0 12px;min-height:40px}.mono-family .nav-contact{font-size:13px;padding:10px 14px}.mono-family .logo{font-size:23px}}
